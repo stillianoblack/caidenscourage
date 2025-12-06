@@ -43,7 +43,7 @@ const Home = () => {
             className="px-10 py-3 rounded-full bg-purple-600 text-white font-semibold text-sm sm:text-base shadow-lg shadow-purple-500/40"
             onClick={() => setIsPreorderOpen(true)}
           >
-            Pre-order Now
+            Join waitlist
           </button>
         </div>
       </div>
