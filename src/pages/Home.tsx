@@ -5,9 +5,9 @@ const Home = () => {
   const [backgroundImage, setBackgroundImage] = useState(
     typeof window !== 'undefined'
       ? window.innerWidth < 768
-        ? "url(/Caidenbackground_phone.jpeg)"
-        : "url(/Caidenbackground_desktop.jpeg)"
-      : "url(/Caidenbackground_desktop.jpeg)",
+        ? "url(/Caidenbackground_phone.jpg)"
+        : "url(/Caidenbackground_desktop.jpg)"
+      : "url(/Caidenbackground_desktop.jpg)",
   );
 
   useEffect(() => {
@@ -15,8 +15,8 @@ const Home = () => {
       const width = window.innerWidth;
       setBackgroundImage(
         width < 768
-          ? "url(/Caidenbackground_phone.jpeg)"
-          : "url(/Caidenbackground_desktop.jpeg)",
+          ? "url(/Caidenbackground_phone.jpg)"
+          : "url(/Caidenbackground_desktop.jpg)",
       );
     };
 
@@ -29,23 +29,19 @@ const Home = () => {
       className="h-screen overflow-hidden relative flex flex-col caiden-bg"
       style={{ backgroundImage }}
     >
-      <div className="pt-6 px-4 sm:pt-10 sm:px-8 flex justify-end">
+      <div className="sticky top-0 z-30 pt-6 px-4 sm:pt-10 sm:px-8 flex justify-end items-center gap-4">
+        <button
+          className="px-6 py-2 sm:px-10 sm:py-3 rounded-full bg-purple-600 text-white font-semibold text-xs sm:text-sm shadow-lg shadow-purple-500/40"
+          onClick={() => setIsPreorderOpen(true)}
+        >
+          Join waitlist
+        </button>
         <a
           href="mailto:stillianoblack@gmail.com"
           className="text-white font-bold text-sm sm:text-base"
         >
           Contact Us
         </a>
-      </div>
-      <div className="absolute inset-x-0 bottom-[450px] sm:bottom-[250px] px-6 sm:px-20">
-        <div className="flex justify-center sm:justify-start sm:pl-48">
-          <button
-            className="px-10 py-3 rounded-full bg-purple-600 text-white font-semibold text-sm sm:text-base shadow-lg shadow-purple-500/40"
-            onClick={() => setIsPreorderOpen(true)}
-          >
-            Join waitlist
-          </button>
-        </div>
       </div>
 
       {isPreorderOpen && (
