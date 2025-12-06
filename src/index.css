@@ -23,3 +23,12 @@ code {
   background-position: center top;
   background-size: cover;
 }
+
+/* iPad portrait view - scale down the desktop/landscape background */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .caiden-bg {
+    background-size: contain;
+    background-position: center center;
+    background-color: #3D6193;
+  }
+}

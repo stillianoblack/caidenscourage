@@ -29,16 +29,16 @@ const Home = () => {
       className="h-screen overflow-hidden relative flex flex-col caiden-bg"
       style={{ backgroundImage }}
     >
-      <div className="sticky top-0 z-30 pt-6 px-4 sm:pt-10 sm:px-8 flex justify-end items-center gap-4">
+      <div className="sticky top-0 z-30 pt-6 px-4 sm:pt-10 sm:px-8 md:pt-6 md:px-6 lg:pt-10 lg:px-8 flex justify-end items-center gap-4">
         <button
-          className="px-6 py-2 sm:px-10 sm:py-3 rounded-full bg-purple-600 text-white font-semibold text-xs sm:text-sm shadow-lg shadow-purple-500/40"
+          className="px-6 py-2 sm:px-10 sm:py-3 md:px-8 md:py-2.5 lg:px-10 lg:py-3 rounded-full bg-purple-600 text-white font-semibold text-xs sm:text-sm md:text-xs lg:text-sm shadow-lg shadow-purple-500/40"
           onClick={() => setIsPreorderOpen(true)}
         >
           Join waitlist
         </button>
         <a
           href="mailto:stillianoblack@gmail.com"
-          className="text-white font-bold text-sm sm:text-base"
+          className="text-white font-bold text-sm sm:text-base md:text-sm lg:text-base"
         >
           Contact Us
         </a>
