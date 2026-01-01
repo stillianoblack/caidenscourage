@@ -1,14 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap');
+
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+:root {
+  --navy-500: #2f5f8e;
+  --coral-500: #e07a5f;
+  --cream: #faf9f7;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--cream);
 }
 
 code {
@@ -32,3 +45,106 @@ code {
     background-color: #3D6193;
   }
 }
+
+/* Custom utility classes */
+.font-display {
+  font-family: 'Nunito', system-ui, sans-serif;
+}
+
+.font-body {
+  font-family: 'Quicksand', system-ui, sans-serif;
+}
+
+/* Gradient text effect */
+.text-gradient {
+  background: linear-gradient(135deg, var(--coral-500) 0%, #f5b1a0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Decorative circle styles */
+.circle-accent {
+  border-radius: 50%;
+  position: absolute;
+  pointer-events: none;
+}
+
+.circle-coral {
+  background-color: var(--coral-500);
+  opacity: 0.8;
+}
+
+.circle-navy {
+  background-color: var(--navy-500);
+  opacity: 0.9;
+}
+
+/* Card hover effects */
+.feature-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Character card styles */
+.character-card {
+  transition: transform 0.3s ease;
+}
+
+.character-card:hover {
+  transform: scale(1.02);
+}
+
+/* Button styles */
+.btn-primary {
+  @apply px-8 py-3 rounded-full bg-coral-500 text-white font-semibold 
+         shadow-coral transition-all duration-300 hover:bg-coral-600 
+         hover:shadow-lg active:scale-95;
+}
+
+.btn-secondary {
+  @apply px-8 py-3 rounded-full bg-white text-navy-500 font-semibold 
+         border-2 border-navy-500 transition-all duration-300 
+         hover:bg-navy-500 hover:text-white active:scale-95;
+}
+
+.btn-nav {
+  @apply px-6 py-2.5 rounded-full bg-navy-500 text-white font-semibold 
+         transition-all duration-300 hover:bg-navy-600 
+         shadow-md hover:shadow-lg active:scale-95;
+}
+
+/* Section dividers */
+.section-divider {
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--coral-500), transparent);
+  border-radius: 2px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--navy-500);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #234870;
+}
+
+/* Animation delays for staggered effects */
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+.animate-delay-500 { animation-delay: 500ms; }

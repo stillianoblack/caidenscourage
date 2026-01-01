@@ -1,5 +1,104 @@
 import React, { useState, useEffect } from 'react';
-import { getStripePreorderUrl, getWaitlistUrl, openExternalUrl } from '../config/externalLinks';
+import { Link } from 'react-router-dom';
+import { getStripePreorderUrl, getWaitlistUrl, openExternalUrl, productLinks } from '../config/externalLinks';
+
+// Feature card data
+const features = [
+  {
+    icon: '💡',
+    title: 'Neurodiversity Positive',
+    description: "We celebrate the power of different minds. Caiden's story shows kids that ADHD isn't a flaw — it's a source of creativity, energy, and unique strength.",
+    bgColor: 'bg-navy-500',
+  },
+  {
+    icon: '🎨',
+    title: 'Creativity & Imagination',
+    description: "Caiden explores the world through art, imagination, and adventure. His story inspires kids to dream boldly and express their ideas freely.",
+    bgColor: 'bg-white',
+    textDark: true,
+  },
+  {
+    icon: '💪',
+    title: 'Emotional Courage',
+    description: "Through challenges and big feelings, Caiden learns to understand his emotions, communicate openly, and show up bravely in everyday moments.",
+    bgColor: 'bg-navy-500',
+  },
+  {
+    icon: '🌟',
+    title: 'Representation Matters',
+    description: "Caiden is a hero who looks, feels, and dreams like the kids who rarely see themselves in stories. His journey helps every child feel seen, valued, and powerful.",
+    bgColor: 'bg-white',
+    textDark: true,
+  },
+];
+
+// Character data
+const characters = [
+  {
+    name: 'Caiden',
+    description: "The brave, imaginative 11-year-old at the center of our story — learning how his ADHD is actually his greatest strength.",
+    image: '/logo.png',
+  },
+  {
+    name: 'Genesis',
+    description: "Caiden's heroic alter-ego, unlocked when he taps into courage and creativity. Genesis is everything Caiden is becoming.",
+    image: '/logo.png',
+  },
+  {
+    name: 'B-4',
+    description: "A floating robotic companion who represents what's happening inside Caiden's mind. B-4 helps him understand his ADHD.",
+    image: '/logo.png',
+  },
+  {
+    name: 'Ollie Buck',
+    description: "Caiden's calm, supportive mentor who teaches him emotional tools, confidence, and how to navigate life with courage.",
+    image: '/logo.png',
+  },
+];
+
+// Shop products
+const products = [
+  {
+    title: "Caiden's Courage — Limited Edition",
+    description: "Caiden discovers that the thing he struggles with most — his ADHD — is actually his superpower. Pre-order the exclusive limited edition now!",
+    badge: "Limited Edition",
+    badgeColor: "bg-coral-500",
+    image: '/balance.png',
+    purchaseUrl: productLinks.limitedEdition,
+    available: true,
+  },
+  {
+    title: "Caiden's Courage T-Shirt",
+    description: "Wear your courage! Show the world you support neurodiversity with our official Caiden's Courage t-shirt.",
+    badge: "New",
+    badgeColor: "bg-coral-500",
+    image: '/balance.png',
+    purchaseUrl: productLinks.tShirt,
+    available: true,
+  },
+  {
+    title: "B-4 Plush Companions",
+    description: "Floating robotic friends that represent different neurodivergent strengths — ADHD, Autism, Anxiety, Big Feelers, & more.",
+    badge: "New",
+    badgeColor: "bg-coral-500",
+    image: '/balance.png',
+    purchaseUrl: productLinks.b4Plush,
+    available: true,
+  },
+];
+
+// Coming soon products - uncomment when ready
+// const comingSoonProducts = [
+//   {
+//     title: "The Courage Journal",
+//     description: "A kid-friendly guided journal that helps children express feelings, track creative ideas, and build emotional strength.",
+//     badge: "Coming Soon",
+//     badgeColor: "bg-navy-400",
+//     image: '/balance.png',
+//     purchaseUrl: null,
+//     available: false,
+//   },
+// ];
 
 const Home = () => {
   const [isPreorderOpen, setIsPreorderOpen] = useState(false);
@@ -38,53 +137,353 @@ const Home = () => {
   };
 
   return (
-    <div
-      className="h-screen overflow-hidden relative flex flex-col caiden-bg"
-      style={{ backgroundImage }}
-    >
-<<<<<<< Updated upstream
-      <div className="sticky top-0 z-30 pt-6 px-4 sm:pt-10 sm:px-8 md:pt-6 md:px-6 lg:pt-10 lg:px-8 flex justify-end items-center gap-4">
-        <button
-          className="px-6 py-2 sm:px-10 sm:py-3 md:px-8 md:py-2.5 lg:px-10 lg:py-3 rounded-full bg-purple-600 text-white font-semibold text-xs sm:text-sm md:text-xs lg:text-sm shadow-lg shadow-purple-500/40"
-          onClick={() => setIsPreorderOpen(true)}
-=======
-      <div className="pt-6 px-4 sm:pt-10 sm:px-8 flex justify-end items-center gap-4">
-        <button
-          type="button"
-          className="px-6 py-2 rounded-full bg-purple-600 text-white font-semibold text-sm sm:text-base shadow-lg shadow-purple-500/40"
-          onClick={handleWaitlistClick}
->>>>>>> Stashed changes
-        >
-          Join waitlist
-        </button>
-        <a
-          href="mailto:stillianoblack@gmail.com"
-          className="text-white font-bold text-sm sm:text-base md:text-sm lg:text-base"
-        >
-          Contact Us
-        </a>
-      </div>
-<<<<<<< Updated upstream
-=======
-      <div className="absolute inset-x-0 bottom-[450px] sm:bottom-[250px] px-6 sm:px-20">
-        <div className="flex justify-center sm:justify-start sm:pl-48">
-          <div className="flex flex-col items-center sm:items-start space-y-3">
+    <div className="min-h-screen bg-cream font-body">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 sm:h-20">
+            <div className="flex items-center gap-2">
+              <span className="font-display text-2xl sm:text-3xl font-extrabold">
+                <span className="text-navy-500">Caiden's</span>
+                <span className="text-coral-500">Courage</span>
+              </span>
+            </div>
+            <div className="hidden md:flex items-center gap-8">
+              <a href="#about" className="text-navy-500 font-semibold hover:text-coral-500 transition-colors">About</a>
+              <a href="#characters" className="text-navy-500 font-semibold hover:text-coral-500 transition-colors">Characters</a>
+              <a href="#products" className="text-navy-500 font-semibold hover:text-coral-500 transition-colors">Shop</a>
+              <a href="mailto:stillianoblack@gmail.com" className="text-navy-500 font-semibold hover:text-coral-500 transition-colors">Contact</a>
+            </div>
             <button
-              className="px-10 py-3 rounded-full bg-purple-600 text-white font-semibold text-sm sm:text-base shadow-lg shadow-purple-500/40"
-              onClick={handlePreorderClick}
+              onClick={handleWaitlistClick}
+              className="btn-nav text-sm sm:text-base"
             >
-              Pre-order Caiden&apos;s Courage
+              Join Waitlist
             </button>
           </div>
         </div>
-      </div>
->>>>>>> Stashed changes
+      </nav>
 
-      {isPreorderOpen && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 px-4">
-          <div className="relative w-full max-w-2xl">
+      {/* Hero Section - Using existing background */}
+      <section
+        className="relative min-h-screen flex flex-col caiden-bg pt-20"
+        style={{ backgroundImage }}
+      >
+        {/* Let the background artwork be the hero - CTAs at bottom */}
+        <div className="flex-1" />
+        
+        {/* Bottom CTA area with subtle backdrop */}
+        <div className="relative z-10 pb-24 sm:pb-32">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center sm:items-start sm:pl-8 animate-slide-up">
+              <div className="flex flex-wrap justify-center sm:justify-start gap-4">
+                <button
+                  onClick={handlePreorderClick}
+                  className="px-10 py-4 rounded-full bg-coral-500 text-white font-bold text-base sm:text-lg shadow-coral hover:bg-coral-600 transition-all duration-300 hover:scale-105"
+                >
+                  Pre-order Now
+                </button>
+                <a
+                  href="#about"
+                  className="px-10 py-4 rounded-full bg-white/90 text-navy-500 font-bold text-base sm:text-lg shadow-lg transition-all duration-300 hover:bg-white hover:scale-105"
+                >
+                  Learn More
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
+          <svg className="w-8 h-8 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+      </section>
+
+      {/* Who Is Caiden Section */}
+      <section id="about" className="py-20 sm:py-28 bg-navy-500 relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="circle-accent circle-coral w-24 h-24 -top-12 left-1/4 opacity-50" />
+        <div className="circle-accent circle-coral w-16 h-16 bottom-20 left-8 opacity-40" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left content */}
+            <div className="animate-fade-in">
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white">
+                Who Is Caiden?
+              </h2>
+              <p className="mt-6 text-lg text-white/90 leading-relaxed">
+                <strong className="text-coral-400">Caiden is an 11-year-old boy who discovers that the thing he struggles with the most — his ADHD — is actually the source of his greatest power.</strong>
+              </p>
+              <p className="mt-4 text-white/80 leading-relaxed">
+                Through adventure, imagination, and everyday courage, Caiden learns to understand his emotions, trust himself, and show up bravely in a world that doesn't always see him clearly.
+              </p>
+              <button
+                onClick={handlePreorderClick}
+                className="mt-8 btn-primary"
+              >
+                Explore the Story
+              </button>
+            </div>
+
+            {/* Right - Feature cards */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              {features.map((feature, index) => (
+                <div
+                  key={feature.title}
+                  className={`feature-card rounded-2xl p-6 ${feature.bgColor} ${
+                    feature.textDark ? 'text-navy-500 shadow-card' : 'text-white border border-white/20'
+                  }`}
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <span className="text-3xl">{feature.icon}</span>
+                  <h3 className={`font-display font-bold text-lg mt-3 ${feature.textDark ? 'text-coral-500' : 'text-coral-400'}`}>
+                    {feature.title}
+                  </h3>
+                  <p className={`mt-2 text-sm leading-relaxed ${feature.textDark ? 'text-navy-600' : 'text-white/80'}`}>
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission Section */}
+      <section className="py-20 sm:py-28 bg-cream relative overflow-hidden">
+        <div className="circle-accent circle-navy w-20 h-20 top-20 right-16 opacity-60" />
+        <div className="circle-accent circle-coral w-12 h-12 bottom-24 left-12 opacity-50" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="relative">
+                <img
+                  src="/balance.png"
+                  alt="Caiden's Courage illustration"
+                  className="w-full max-w-lg mx-auto rounded-3xl shadow-card"
+                />
+                <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-coral-500/20 rounded-full blur-2xl" />
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <p className="text-coral-500 font-semibold text-lg">Our Mission:</p>
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-500 mt-2">
+                Courage for Every Kid
+              </h2>
+              <p className="mt-6 text-navy-600 leading-relaxed">
+                Every child deserves to see their mind as powerful — especially the ones who feel different.
+              </p>
+              <p className="mt-4 text-navy-600 leading-relaxed">
+                Caiden's Courage was created to help kids understand their emotions, celebrate neurodiversity, and discover the superhero that already lives inside them. Through stories, characters, and imaginative learning tools, we empower children to feel seen, confident, and brave in their everyday world.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <a href="#about" className="btn-primary">
+                  Learn About the Mission
+                </a>
+                <a href="#characters" className="btn-secondary">
+                  Meet the Characters
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Meet the Characters Section */}
+      <section id="characters" className="py-20 sm:py-28 bg-navy-500 relative overflow-hidden">
+        <div className="circle-accent circle-coral w-28 h-28 top-12 left-8 opacity-40" />
+        <div className="circle-accent circle-coral w-20 h-20 bottom-16 right-12 opacity-50" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white">
+              Meet the Characters of
+            </h2>
+            <p className="text-coral-400 font-display text-2xl sm:text-3xl lg:text-4xl font-bold mt-2">
+              Caiden's Courage
+            </p>
+            <p className="mt-6 text-white/80 max-w-2xl mx-auto">
+              Discover the heroes, friends, and guides who help Caiden navigate courage, creativity, and everyday challenges.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {characters.map((character, index) => (
+              <div
+                key={character.name}
+                className="character-card bg-navy-600/50 rounded-2xl p-6 text-center backdrop-blur-sm border border-white/10"
+                style={{ animationDelay: `${index * 150}ms` }}
+              >
+                <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-full bg-gradient-to-br from-coral-400 to-coral-600 p-1 shadow-coral">
+                  <div className="w-full h-full rounded-full bg-navy-500 flex items-center justify-center overflow-hidden">
+                    <img
+                      src={character.image}
+                      alt={character.name}
+                      className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+                    />
+                  </div>
+                </div>
+                <h3 className="font-display text-xl font-bold text-white mt-4">
+                  {character.name}
+                </h3>
+                <p className="mt-3 text-sm text-white/70 leading-relaxed">
+                  {character.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Shop Section */}
+      <section id="products" className="py-20 sm:py-28 bg-cream relative overflow-hidden">
+        <div className="circle-accent circle-coral w-16 h-16 top-16 left-1/3 opacity-40" />
+        <div className="circle-accent circle-navy w-24 h-24 bottom-12 right-1/4 opacity-30" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-500">
+              Shop
+            </h2>
+            <p className="text-gradient font-display text-2xl sm:text-3xl lg:text-4xl font-bold mt-2">
+              Caiden's Courage
+            </p>
+            <p className="mt-4 text-navy-600/80 max-w-2xl mx-auto">
+              Bring the magic of Caiden's journey home with our exclusive products
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {products.map((product) => (
+              <div
+                key={product.title}
+                className={`feature-card bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover ${
+                  product.available ? 'ring-2 ring-coral-500/50' : ''
+                }`}
+              >
+                <div className="relative h-48 sm:h-56 bg-gradient-to-br from-navy-100 to-navy-200 overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <span className={`absolute top-4 left-4 px-4 py-1.5 ${product.badgeColor} text-white text-sm font-semibold rounded-full`}>
+                    {product.badge}
+                  </span>
+                  {product.available && (
+                    <span className="absolute top-4 right-4 px-3 py-1 bg-green-500 text-white text-xs font-semibold rounded-full flex items-center gap-1">
+                      <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                      Available Now
+                    </span>
+                  )}
+                </div>
+                <div className="p-6">
+                  <h3 className="font-display text-xl font-bold text-navy-500">
+                    {product.title}
+                  </h3>
+                  <p className="mt-3 text-navy-600/80 text-sm leading-relaxed">
+                    {product.description}
+                  </p>
+                  {product.available && product.purchaseUrl ? (
+                    <button
+                      onClick={() => openExternalUrl(product.purchaseUrl!)}
+                      className="mt-5 w-full py-3 px-6 bg-coral-500 text-white font-bold rounded-full shadow-coral hover:bg-coral-600 transition-all duration-300 flex items-center justify-center gap-2"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                      Buy Now
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleWaitlistClick}
+                      className="mt-5 w-full py-3 px-6 bg-navy-200 text-navy-500 font-semibold rounded-full hover:bg-navy-300 transition-all duration-300 flex items-center justify-center gap-2"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                      </svg>
+                      Notify Me
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 sm:py-20 bg-gradient-to-r from-navy-500 to-navy-600 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-1/4 w-64 h-64 bg-coral-500 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-coral-400 rounded-full blur-3xl" />
+        </div>
+        
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-white">
+            Ready to Join Caiden's Journey?
+          </h2>
+          <p className="mt-4 text-white/80 text-lg">
+            Be the first to know when the book launches and get exclusive updates.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
             <button
-              className="absolute -top-3 -right-3 h-8 w-8 rounded-full bg-white text-black text-sm font-bold shadow-md flex items-center justify-center"
+              onClick={handleWaitlistClick}
+              className="btn-primary"
+            >
+              Join the Waitlist
+            </button>
+            <a
+              href="mailto:stillianoblack@gmail.com"
+              className="px-8 py-3 rounded-full bg-transparent text-white font-semibold border-2 border-white/40 transition-all duration-300 hover:bg-white/10"
+            >
+              Contact Us
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-navy-600 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-2">
+              <span className="font-display text-xl font-extrabold">
+                <span className="text-white">Caiden's</span>
+                <span className="text-coral-400">Courage</span>
+              </span>
+            </div>
+            <div className="flex flex-wrap justify-center gap-6 text-sm">
+              <Link to="/privacy" className="text-white/70 hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
+              <Link to="/terms" className="text-white/70 hover:text-white transition-colors">
+                Terms of Service
+              </Link>
+              <a href="mailto:stillianoblack@gmail.com" className="text-white/70 hover:text-white transition-colors">
+                Contact
+              </a>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t border-white/10 text-center">
+            <p className="text-white/60 text-sm">
+              © {new Date().getFullYear()} Caiden's Courage. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+
+      {/* Pre-order Modal */}
+      {isPreorderOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+          <div className="relative w-full max-w-2xl animate-slide-up">
+            <button
+              className="absolute -top-3 -right-3 h-10 w-10 rounded-full bg-white text-navy-500 font-bold shadow-lg flex items-center justify-center hover:bg-gray-100 transition-colors z-10"
               onClick={() => setIsPreorderOpen(false)}
               aria-label="Close pre-order"
             >
@@ -93,17 +492,11 @@ const Home = () => {
             <iframe
               src="https://beacons.ai/stillianoblack"
               title="Caiden's Courage Pre-order"
-              className="w-full h-[70vh] rounded-xl bg-white"
+              className="w-full h-[70vh] rounded-2xl bg-white shadow-2xl"
             />
           </div>
         </div>
       )}
-
-      <footer className="absolute bottom-0 z-20 w-full h-20 bg-black bg-opacity-50 flex items-center justify-center">
-        <div className="text-white text-center space-y-2">
-          <p>© {new Date().getFullYear()} Caidens Courage. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
   );
 };

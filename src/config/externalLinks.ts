@@ -1,7 +1,16 @@
 export function getStripePreorderUrl(): string | undefined {
-  // Hardcoded Stripe Payment Link placeholder (replace with your real link)
-  return 'https://buy.stripe.com/REPLACE_ME';
+  // Limited Edition Pre-order Stripe Payment Link
+  return 'https://buy.stripe.com/9B6bJ03DVe0ogMTaZG3Ru00';
 }
+
+// Product-specific Stripe links
+export const productLinks = {
+  limitedEdition: 'https://buy.stripe.com/9B6bJ03DVe0ogMTaZG3Ru00',
+  b4Plush: 'https://buy.stripe.com/6oUaEWa2j9K89kr9VC3Ru01',
+  tShirt: 'https://buy.stripe.com/9B6dR80rJ2hGaov0l23Ru02',
+  // Coming soon - add link when ready
+  // courageJournal: 'https://buy.stripe.com/YOUR_JOURNAL_LINK',
+};
 
 export function getWaitlistUrl(): string | undefined {
   // Optional: hardcode a waitlist URL here if you want the top-right button to go somewhere else.
