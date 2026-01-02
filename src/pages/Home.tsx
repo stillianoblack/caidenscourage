@@ -101,8 +101,8 @@ const Home = () => {
     typeof window !== 'undefined'
       ? window.innerWidth < 768
         ? "url(/Caidenbackground_phone.jpg)"
-        : "url(/Caidenbackground_desktop.png)"
-      : "url(/Caidenbackground_desktop.png)",
+        : "url(/Caidenbackground_desktop.jpg)"
+      : "url(/Caidenbackground_desktop.jpg)",
   );
 
   useEffect(() => {
@@ -111,7 +111,7 @@ const Home = () => {
       setBackgroundImage(
         width < 768
           ? "url(/Caidenbackground_phone.jpg)"
-          : "url(/Caidenbackground_desktop.png)",
+          : "url(/Caidenbackground_desktop.jpg)",
       );
     };
 
@@ -148,7 +148,7 @@ const Home = () => {
               <a href="#about" className="text-navy-500 font-semibold hover:text-golden-500 transition-colors">About</a>
               <a href="#characters" className="text-navy-500 font-semibold hover:text-golden-500 transition-colors">Characters</a>
               <a href="#products" className="text-navy-500 font-semibold hover:text-golden-500 transition-colors">Shop</a>
-              <a href="mailto:stillianoblack@gmail.com" className="text-navy-500 font-semibold hover:text-golden-500 transition-colors">Contact</a>
+              <a href="mailto:stills@caidenscourage.com" className="text-navy-500 font-semibold hover:text-golden-500 transition-colors">Contact</a>
             </div>
             <button
               onClick={handleWaitlistClick}
@@ -162,11 +162,11 @@ const Home = () => {
 
       {/* Hero Section - Using existing background */}
       <section
-        className="relative min-h-screen flex items-center caiden-bg pt-20"
+        className="relative min-h-screen flex items-end sm:items-center caiden-bg pt-20"
         style={{ backgroundImage }}
       >
-        {/* Hero content + CTAs - vertically centered */}
-        <div className="relative z-10 w-full py-12">
+        {/* Hero content + CTAs - bottom on mobile, centered on desktop */}
+        <div className="relative z-10 w-full pb-28 sm:pb-0 sm:py-12">
           <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
             <div className="max-w-xl animate-slide-up">
               {/* Title and subtitle */}
@@ -207,9 +207,9 @@ const Home = () => {
 
       {/* Who Is Caiden Section */}
       <section id="about" className="py-20 sm:py-28 bg-navy-500 relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="circle-accent circle-coral w-24 h-24 -top-12 left-1/4 opacity-50" />
-        <div className="circle-accent circle-coral w-16 h-16 bottom-20 left-8 opacity-40" />
+        {/* Decorative elements - hidden on mobile */}
+        <div className="hidden sm:block circle-accent circle-coral w-24 h-24 -top-12 left-1/4 opacity-50" />
+        <div className="hidden sm:block circle-accent circle-coral w-16 h-16 bottom-20 left-8 opacity-40" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -256,8 +256,8 @@ const Home = () => {
 
       {/* Mission Section */}
       <section className="py-20 sm:py-28 bg-cream relative overflow-hidden">
-        <div className="circle-accent circle-navy w-20 h-20 top-20 right-16 opacity-60" />
-        <div className="circle-accent circle-coral w-12 h-12 bottom-24 left-12 opacity-50" />
+        <div className="hidden sm:block circle-accent circle-navy w-20 h-20 top-20 right-16 opacity-60" />
+        <div className="hidden sm:block circle-accent circle-coral w-12 h-12 bottom-24 left-12 opacity-50" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -297,8 +297,8 @@ const Home = () => {
 
       {/* Meet the Characters Section */}
       <section id="characters" className="py-20 sm:py-28 bg-navy-500 relative overflow-hidden">
-        <div className="circle-accent circle-coral w-28 h-28 top-12 left-8 opacity-40" />
-        <div className="circle-accent circle-coral w-20 h-20 bottom-16 right-12 opacity-50" />
+        <div className="hidden sm:block circle-accent circle-coral w-28 h-28 top-12 left-8 opacity-40" />
+        <div className="hidden sm:block circle-accent circle-coral w-20 h-20 bottom-16 right-12 opacity-50" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -343,8 +343,8 @@ const Home = () => {
 
       {/* Shop Section */}
       <section id="products" className="py-20 sm:py-28 bg-cream relative overflow-hidden">
-        <div className="circle-accent circle-coral w-16 h-16 top-16 left-1/3 opacity-40" />
-        <div className="circle-accent circle-navy w-24 h-24 bottom-12 right-1/4 opacity-30" />
+        <div className="hidden sm:block circle-accent circle-coral w-16 h-16 top-16 left-1/3 opacity-40" />
+        <div className="hidden sm:block circle-accent circle-navy w-24 h-24 bottom-12 right-1/4 opacity-30" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -436,7 +436,7 @@ const Home = () => {
               Join the Waitlist
             </button>
             <a
-              href="mailto:stillianoblack@gmail.com"
+              href="mailto:stills@caidenscourage.com"
               className="px-8 py-3 rounded-full bg-transparent text-white font-semibold border-2 border-white/40 transition-all duration-300 hover:bg-white/10"
             >
               Contact Us
@@ -462,7 +462,7 @@ const Home = () => {
               <Link to="/terms" className="text-white/70 hover:text-white transition-colors">
                 Terms of Service
               </Link>
-              <a href="mailto:stillianoblack@gmail.com" className="text-white/70 hover:text-white transition-colors">
+              <a href="mailto:stills@caidenscourage.com" className="text-white/70 hover:text-white transition-colors">
                 Contact
               </a>
             </div>

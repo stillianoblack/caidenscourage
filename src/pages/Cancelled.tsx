@@ -18,7 +18,7 @@ const Cancelled: React.FC = () => {
             Back to Home
           </Link>
           <a
-            href="mailto:stillianoblack@gmail.com"
+            href="mailto:stills@caidenscourage.com"
             className="inline-flex items-center justify-center rounded-full bg-purple-600 text-white px-6 py-3 font-semibold shadow-lg shadow-purple-500/40"
           >
             Contact Us
