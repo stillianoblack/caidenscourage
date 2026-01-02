@@ -4,30 +4,44 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Kiddio-inspired palette
+        // Caiden's Courage palette
         navy: {
-          50: '#e6eef5',
-          100: '#c0d4e6',
-          200: '#96b8d6',
-          300: '#6c9cc5',
-          400: '#4d87b9',
-          500: '#2f5f8e', // Primary navy
-          600: '#2a5580',
-          700: '#234870',
-          800: '#1d3c5f',
-          900: '#122843',
+          50: '#e8ecf2',
+          100: '#c5cfe0',
+          200: '#9fb0cb',
+          300: '#7991b6',
+          400: '#5c7aa6',
+          500: '#243E70', // Primary navy (updated)
+          600: '#203864',
+          700: '#1b3057',
+          800: '#16284a',
+          900: '#0e1a32',
         },
+        // Changed from coral/orange to yellow
+        golden: {
+          50: '#fefcf5',
+          100: '#fcf6e3',
+          200: '#f9edca',
+          300: '#f5e3b0',
+          400: '#f2da97',
+          500: '#F0CE6E', // Primary golden yellow (updated)
+          600: '#e8c255',
+          700: '#deb23c',
+          800: '#c99a28',
+          900: '#a67d1c',
+        },
+        // Keep coral as alias for backward compatibility
         coral: {
-          50: '#fef3f0',
-          100: '#fce0d9',
-          200: '#f9c9bd',
-          300: '#f5b1a0',
-          400: '#f29f8a',
-          500: '#e07a5f', // Primary coral
-          600: '#d86a4d',
-          700: '#c95a3d',
-          800: '#b54a2f',
-          900: '#943a22',
+          50: '#fefcf5',
+          100: '#fcf6e3',
+          200: '#f9edca',
+          300: '#f5e3b0',
+          400: '#f2da97',
+          500: '#F0CE6E', // Now points to golden yellow
+          600: '#e8c255',
+          700: '#deb23c',
+          800: '#c99a28',
+          900: '#a67d1c',
         },
         cream: '#faf9f7',
         slate: {
@@ -65,9 +79,10 @@ module.exports = {
         },
       },
       boxShadow: {
-        'card': '0 4px 20px rgba(47, 95, 142, 0.15)',
-        'card-hover': '0 8px 30px rgba(47, 95, 142, 0.25)',
-        'coral': '0 4px 20px rgba(224, 122, 95, 0.4)',
+        'card': '0 4px 20px rgba(36, 62, 112, 0.15)',
+        'card-hover': '0 8px 30px rgba(36, 62, 112, 0.25)',
+        'golden': '0 4px 20px rgba(240, 206, 110, 0.4)',
+        'coral': '0 4px 20px rgba(240, 206, 110, 0.4)', // Updated for yellow
       }
     },
   },

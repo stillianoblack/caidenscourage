@@ -5,8 +5,9 @@
 @import 'tailwindcss/utilities';
 
 :root {
-  --navy-500: #2f5f8e;
-  --coral-500: #e07a5f;
+  --navy-500: #243E70;
+  --golden-500: #F0CE6E;
+  --coral-500: #F0CE6E; /* Alias for backward compatibility */
   --cream: #faf9f7;
 }
 
@@ -31,7 +32,7 @@ code {
 
 /* Caiden background helpers */
 .caiden-bg {
-  background-color: #3D6193;
+  background-color: #243E70;
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;
@@ -42,7 +43,7 @@ code {
   .caiden-bg {
     background-size: contain;
     background-position: center center;
-    background-color: #3D6193;
+    background-color: #243E70;
   }
 }
 
@@ -55,9 +56,9 @@ code {
   font-family: 'Quicksand', system-ui, sans-serif;
 }
 
-/* Gradient text effect */
+/* Gradient text effect - now golden */
 .text-gradient {
-  background: linear-gradient(135deg, var(--coral-500) 0%, #f5b1a0 100%);
+  background: linear-gradient(135deg, var(--golden-500) 0%, #f5e3b0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -71,7 +72,12 @@ code {
 }
 
 .circle-coral {
-  background-color: var(--coral-500);
+  background-color: var(--golden-500);
+  opacity: 0.8;
+}
+
+.circle-golden {
+  background-color: var(--golden-500);
   opacity: 0.8;
 }
 
@@ -98,10 +104,10 @@ code {
   transform: scale(1.02);
 }
 
-/* Button styles */
+/* Button styles - updated to golden yellow with dark text */
 .btn-primary {
-  @apply px-8 py-3 rounded-full bg-coral-500 text-white font-semibold 
-         shadow-coral transition-all duration-300 hover:bg-coral-600 
+  @apply px-8 py-3 rounded-full bg-golden-500 text-navy-500 font-bold 
+         shadow-golden transition-all duration-300 hover:bg-golden-600 
          hover:shadow-lg active:scale-95;
 }
 
@@ -112,15 +118,15 @@ code {
 }
 
 .btn-nav {
-  @apply px-6 py-2.5 rounded-full bg-navy-500 text-white font-semibold 
-         transition-all duration-300 hover:bg-navy-600 
+  @apply px-6 py-2.5 rounded-full bg-golden-500 text-navy-500 font-bold 
+         transition-all duration-300 hover:bg-golden-600 
          shadow-md hover:shadow-lg active:scale-95;
 }
 
 /* Section dividers */
 .section-divider {
   height: 4px;
-  background: linear-gradient(90deg, transparent, var(--coral-500), transparent);
+  background: linear-gradient(90deg, transparent, var(--golden-500), transparent);
   border-radius: 2px;
 }
 
@@ -139,7 +145,7 @@ code {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #234870;
+  background: #1b3057;
 }
 
 /* Animation delays for staggered effects */
