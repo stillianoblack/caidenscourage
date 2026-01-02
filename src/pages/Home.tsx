@@ -48,7 +48,7 @@ const characters = [
     image: '/B-4@4x-100.jpeg',
   },
   {
-    name: 'Turtle',
+    name: 'Ollie Buck',
     description: "Caiden's loyal companion who reminds him that slow and steady wins the race — patience is a superpower too.",
     image: '/Turtle@4x-100.jpeg',
   },
