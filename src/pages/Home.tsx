@@ -161,27 +161,6 @@ const Home = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [rotatingWord, setRotatingWord] = useState(0);
   const words = ['Superpower', 'Strength', 'Courage', 'Power'];
-  const [backgroundImage, setBackgroundImage] = useState(
-    typeof window !== 'undefined'
-      ? window.innerWidth < 768
-        ? "url(/Caidenbackground_phone.jpg)"
-        : "url(/Caidenbackground_desktop.jpg)"
-      : "url(/Caidenbackground_desktop.jpg)",
-  );
-
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      setBackgroundImage(
-        width < 768
-          ? "url(/Caidenbackground_phone.jpg)"
-          : "url(/Caidenbackground_desktop.jpg)",
-      );
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
