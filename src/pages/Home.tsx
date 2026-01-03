@@ -159,6 +159,8 @@ const Home = () => {
   const location = useLocation();
   const [isPreorderOpen, setIsPreorderOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [rotatingWord, setRotatingWord] = useState(0);
+  const words = ['Superpower', 'Strength', 'Courage', 'Power'];
   const [backgroundImage, setBackgroundImage] = useState(
     typeof window !== 'undefined'
       ? window.innerWidth < 768
@@ -222,6 +224,15 @@ const Home = () => {
     };
   }, []);
 
+  // Rotate words in the title
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRotatingWord((prev) => (prev + 1) % words.length);
+    }, 7000); // Change every 7 seconds (between 6-8 seconds)
+
+    return () => clearInterval(interval);
+  }, [words.length]);
+
   const handlePreorderClick = () => {
     const stripeUrl = getStripePreorderUrl();
     if (stripeUrl) return openExternalUrl(stripeUrl);
@@ -244,7 +255,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-cream font-body">
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md transition-shadow duration-300 ${isScrolled ? 'shadow-md' : 'shadow-sm'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md transition-all duration-300 ${isScrolled ? 'bg-navy-500 shadow-xl' : 'bg-white/90 shadow-md'}`} style={isScrolled ? { boxShadow: '0 10px 25px -5px rgba(36, 62, 112, 0.4), 0 8px 10px -6px rgba(36, 62, 112, 0.3)' } : { boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             <div className="flex items-center">
@@ -261,14 +272,21 @@ const Home = () => {
               </Link>
             </div>
             <div className="hidden md:flex items-center gap-8">
-              <a href="#about" className="text-navy-500 font-semibold hover:text-golden-500 transition-colors">About</a>
-              <a href="#characters" className="text-navy-500 font-semibold hover:text-golden-500 transition-colors">Characters</a>
-              <a href="#products" className="text-navy-500 font-semibold hover:text-golden-500 transition-colors">Shop</a>
-              <a href="mailto:stills@caidenscourage.com" className="text-navy-500 font-semibold hover:text-golden-500 transition-colors">Contact</a>
+              <a href="#about" className={`nav-link-underline font-semibold transition-all duration-300 hover:font-bold ${isScrolled ? 'text-white' : 'text-navy-500'}`}>About</a>
+              <a href="#characters" className={`nav-link-underline font-semibold transition-all duration-300 hover:font-bold ${isScrolled ? 'text-white' : 'text-navy-500'}`}>Characters</a>
+              <a href="#products" className={`nav-link-underline font-semibold transition-all duration-300 hover:font-bold ${isScrolled ? 'text-white' : 'text-navy-500'}`}>Shop</a>
+              <a href="mailto:stills@caidenscourage.com" className={`nav-link-underline font-semibold transition-all duration-300 hover:font-bold ${isScrolled ? 'text-white' : 'text-navy-500'}`}>Contact</a>
             </div>
             <button
               onClick={handleWaitlistClick}
-              className="btn-nav text-sm sm:text-base"
+              className={`text-sm sm:text-base px-6 py-2.5 rounded-full font-bold transition-all duration-300 hover:scale-110 active:scale-95 ${isScrolled ? 'bg-navy-500 text-white hover:bg-golden-500 hover:text-navy-500' : 'bg-navy-500 text-white hover:bg-golden-500 hover:text-navy-500'}`}
+              style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08)' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08)';
+              }}
             >
               Join Waitlist
             </button>
@@ -276,39 +294,80 @@ const Home = () => {
         </div>
       </nav>
 
-      {/* Hero Section - Using existing background */}
+      {/* Hero Section - White background */}
       <section
         id="hero"
-        className="relative min-h-screen flex items-end sm:items-center caiden-bg pt-20"
-        style={{ backgroundImage }}
+        className="relative min-h-screen flex items-end sm:items-center bg-white pt-20 overflow-hidden"
       >
+        {/* Animated circles - spread out across entire header */}
+        <div className="absolute inset-0 z-0">
+          {/* Yellow circles */}
+          <div className="bubble w-20 h-20 top-12 left-[10%]" style={{ animation: 'float-slow 10s ease-in-out infinite', animationDelay: '0s' }} />
+          <div className="bubble w-18 h-18 top-40 left-[25%]" style={{ animation: 'float-slow 12s ease-in-out infinite', animationDelay: '2.5s' }} />
+          <div className="bubble w-16 h-16 top-68 left-[50%]" style={{ animation: 'float-slow 11s ease-in-out infinite', animationDelay: '1s' }} />
+          <div className="bubble w-22 h-22 top-88 right-[30%]" style={{ animation: 'float-slow 13s ease-in-out infinite', animationDelay: '3.5s' }} />
+          
+          {/* Blue circles */}
+          <div className="bubble-navy w-24 h-24 top-24 right-[15%]" style={{ animation: 'float-slow 12s ease-in-out infinite', animationDelay: '2s' }} />
+          <div className="bubble-navy w-16 h-16 top-52 left-[35%]" style={{ animation: 'float-slow 9s ease-in-out infinite', animationDelay: '4s' }} />
+          <div className="bubble-navy w-20 h-20 top-76 right-[45%]" style={{ animation: 'float-slow 10s ease-in-out infinite', animationDelay: '1.5s' }} />
+          
+          {/* Orange circles */}
+          <div className="bubble-orange w-18 h-18 top-32 left-[60%]" style={{ animation: 'float-slow 11s ease-in-out infinite', animationDelay: '1s' }} />
+          <div className="bubble-orange w-20 h-20 top-60 right-[20%]" style={{ animation: 'float-slow 13s ease-in-out infinite', animationDelay: '3s' }} />
+          <div className="bubble-orange w-14 h-14 top-84 left-[75%]" style={{ animation: 'float-slow 9s ease-in-out infinite', animationDelay: '2s' }} />
+        </div>
+        
         {/* Hero content + CTAs - bottom on mobile, centered on desktop */}
         <div className="relative z-10 w-full pb-28 sm:pb-0 sm:py-12">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
-            <div className="max-w-xl animate-slide-up">
-              {/* Title and subtitle */}
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight drop-shadow-lg">
-                The Boy Who Turned ADHD Into His
-                <span className="text-golden-400"> Superpower</span>
-              </h1>
-              <p className="mt-4 text-lg sm:text-xl text-white/90 drop-shadow-md">
-                Meet Caiden — an illustrated kids' universe about courage, creativity, and emotional growth. <span className="italic">A story for kids who think differently—and the adults who support them.</span>
-              </p>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Left side - Text content */}
+              <div className="max-w-xl animate-slide-up">
+                {/* Title and subtitle */}
+                <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-navy-500 leading-tight">
+                  The Boy Who Turned ADHD Into His{' '}
+                  <span className="text-golden-500 inline-block min-w-[200px] sm:min-w-[240px] lg:min-w-[280px]">
+                    <span key={rotatingWord} className="rotating-word inline-block">
+                      {words[rotatingWord]}
+                    </span>
+                  </span>
+                </h1>
+                <p className="mt-4 text-lg sm:text-xl text-navy-600">
+                  Meet Caiden — an illustrated kids' universe about courage, creativity, and emotional growth. <span className="italic">A story for kids who think differently—and the adults who support them.</span>
+                </p>
+                
+                {/* CTAs - right below text */}
+                <div className="flex flex-wrap gap-3 sm:gap-4 mt-8">
+                  <button
+                    onClick={handlePreorderClick}
+                    className="px-9 py-4 rounded-full bg-golden-500 text-navy-500 font-bold text-base sm:text-lg shadow-md transition-all duration-500 ease-in-out hover:bg-navy-500 hover:text-white hover:shadow-xl hover:scale-105"
+                  >
+                    Pre-order Now
+                  </button>
+                  <a
+                    href="#about"
+                    className="px-9 py-4 rounded-full bg-navy-500 text-white font-bold text-base sm:text-lg shadow-md transition-all duration-500 ease-in-out hover:bg-golden-500 hover:text-navy-500 hover:shadow-xl hover:scale-105"
+                  >
+                    Learn More
+                  </a>
+                </div>
+              </div>
               
-              {/* CTAs - right below text */}
-              <div className="flex flex-wrap gap-3 sm:gap-4 mt-8">
-                <button
-                  onClick={handlePreorderClick}
-                  className="px-9 py-4 rounded-full bg-golden-500 text-navy-500 font-bold text-base sm:text-lg shadow-golden hover:bg-golden-600 transition-all duration-300 hover:scale-105"
-                >
-                  Pre-order Now
-                </button>
-                <a
-                  href="#about"
-                  className="px-9 py-4 rounded-full bg-white/95 text-navy-500 font-bold text-base sm:text-lg shadow-lg transition-all duration-300 hover:bg-white hover:scale-105"
-                >
-                  Learn More
-                </a>
+              {/* Right side - Hero image */}
+              <div className="flex items-center justify-center lg:justify-end mt-8 lg:mt-0">
+                <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl">
+                  {/* Geometric shape behind image */}
+                  <div className="geometric-shape shape-blob w-64 h-64 lg:w-80 lg:h-80 -z-10" style={{ top: '10%', right: '5%' }} />
+                  <div className="geometric-shape shape-star w-32 h-32 lg:w-40 lg:h-40 -z-10" style={{ bottom: '15%', left: '10%' }} />
+                  <div className="geometric-shape shape-squiggle w-48 h-48 lg:w-56 lg:h-56 -z-10" style={{ top: '50%', right: '15%' }} />
+                  
+                  <img
+                    src="/Courageforeverykid_tipping toe.png"
+                    alt="Caiden - The Boy Who Turned ADHD Into His Superpower"
+                    className="w-full h-auto object-contain drop-shadow-lg relative z-10"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -316,7 +375,7 @@ const Home = () => {
 
         {/* Scroll indicator */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
-          <svg className="w-10 h-10 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-10 h-10 text-navy-500/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         </div>
