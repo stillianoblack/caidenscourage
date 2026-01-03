@@ -278,8 +278,8 @@ const Home = () => {
         id="hero"
         className="relative min-h-screen flex items-end sm:items-center bg-white pt-20 overflow-hidden"
       >
-        {/* Animated circles - spread out across entire header */}
-        <div className="absolute inset-0 z-0">
+        {/* Animated circles - spread out across entire header, hidden on mobile */}
+        <div className="absolute inset-0 z-0 hidden sm:block">
           {/* Yellow circles */}
           <div className="bubble w-20 h-20 top-12 left-[10%]" style={{ animation: 'float-slow 10s ease-in-out infinite', animationDelay: '0s' }} />
           <div className="bubble top-40 left-[25%]" style={{ width: '4.5rem', height: '4.5rem', animation: 'float-slow 12s ease-in-out infinite', animationDelay: '2.5s' }} />
@@ -298,11 +298,27 @@ const Home = () => {
         </div>
         
         {/* Hero content + CTAs - bottom on mobile, centered on desktop */}
-        <div className="relative z-10 w-full pb-28 sm:pb-0 sm:py-12">
+        <div className="relative z-10 w-full pb-28 sm:pb-0 sm:py-12" style={{ paddingTop: '70px' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              {/* Left side - Text content */}
-              <div className="max-w-xl animate-slide-up">
+            <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Hero image - First on mobile, right side on desktop */}
+              <div className="flex items-center justify-center lg:justify-end order-1 lg:order-2 w-full">
+                <div className="relative w-full max-w-xs lg:max-w-md xl:max-w-lg">
+                  {/* Geometric shape behind image - hidden on mobile */}
+                  <div className="hidden sm:block geometric-shape shape-blob w-64 h-64 lg:w-80 lg:h-80 -z-10" style={{ top: '10%', right: '5%' }} />
+                  <div className="hidden sm:block geometric-shape shape-star w-32 h-32 lg:w-40 lg:h-40 -z-10" style={{ bottom: '15%', left: '10%' }} />
+                  <div className="hidden sm:block geometric-shape shape-squiggle w-48 h-48 lg:w-56 lg:h-56 -z-10" style={{ top: '50%', right: '15%' }} />
+                  
+                  <img
+                    src="/Courageforeverykid_tipping toe.png"
+                    alt="Caiden - The Boy Who Turned ADHD Into His Superpower"
+                    className="w-full h-auto object-contain drop-shadow-lg relative z-10"
+                  />
+                </div>
+              </div>
+              
+              {/* Text content - Second on mobile, left side on desktop, centered on mobile */}
+              <div className="max-w-xl animate-slide-up order-2 lg:order-1 text-center lg:text-left">
                 {/* Title and subtitle */}
                 <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-navy-500 leading-tight">
                   The Boy Who Turned ADHD Into His{' '}
@@ -316,8 +332,8 @@ const Home = () => {
                   Meet Caiden — an illustrated kids' universe about courage, creativity, and emotional growth. <span className="italic">A story for kids who think differently—and the adults who support them.</span>
                 </p>
                 
-                {/* CTAs - right below text */}
-                <div className="flex flex-wrap gap-3 sm:gap-4 mt-8">
+                {/* CTAs - right below text, centered on mobile */}
+                <div className="flex flex-wrap gap-3 sm:gap-4 mt-8 justify-center lg:justify-start">
                   <button
                     onClick={handlePreorderClick}
                     className="px-9 py-4 rounded-full bg-golden-500 text-navy-500 font-bold text-base sm:text-lg shadow-md transition-all duration-500 ease-in-out hover:bg-navy-500 hover:text-white hover:shadow-xl hover:scale-105"
@@ -330,22 +346,6 @@ const Home = () => {
                   >
                     Learn More
                   </a>
-                </div>
-              </div>
-              
-              {/* Right side - Hero image */}
-              <div className="flex items-center justify-center lg:justify-end mt-8 lg:mt-0">
-                <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl">
-                  {/* Geometric shape behind image */}
-                  <div className="geometric-shape shape-blob w-64 h-64 lg:w-80 lg:h-80 -z-10" style={{ top: '10%', right: '5%' }} />
-                  <div className="geometric-shape shape-star w-32 h-32 lg:w-40 lg:h-40 -z-10" style={{ bottom: '15%', left: '10%' }} />
-                  <div className="geometric-shape shape-squiggle w-48 h-48 lg:w-56 lg:h-56 -z-10" style={{ top: '50%', right: '15%' }} />
-                  
-                  <img
-                    src="/Courageforeverykid_tipping toe.png"
-                    alt="Caiden - The Boy Who Turned ADHD Into His Superpower"
-                    className="w-full h-auto object-contain drop-shadow-lg relative z-10"
-                  />
                 </div>
               </div>
             </div>
@@ -369,7 +369,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left content */}
-            <div className="animate-fade-in">
+            <div className="animate-fade-in text-center lg:text-left">
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white">
                 Who Is Caiden?
               </h2>
@@ -379,12 +379,14 @@ const Home = () => {
               <p className="mt-4 text-white/80 leading-relaxed">
                 Through adventure, imagination, and everyday courage, Caiden learns to understand his emotions, trust himself, and show up bravely in a world that doesn't always see him clearly.
               </p>
-              <button
-                onClick={handlePreorderClick}
-                className="mt-8 btn-primary"
-              >
-                Explore the Story
-              </button>
+              <div className="flex justify-center lg:justify-start">
+                <button
+                  onClick={handlePreorderClick}
+                  className="mt-8 btn-primary"
+                >
+                  Explore the Story
+                </button>
+              </div>
             </div>
 
             {/* Right - Feature cards */}
@@ -428,7 +430,7 @@ const Home = () => {
                 <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-golden-500/20 rounded-full blur-2xl" />
               </div>
             </div>
-            <div className="order-1 lg:order-2">
+            <div className="order-1 lg:order-2 text-center lg:text-left">
               <p className="text-golden-500 font-semibold text-lg">Our Mission:</p>
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-500 mt-2">
                 Courage for Every Kid
@@ -439,7 +441,7 @@ const Home = () => {
               <p className="mt-4 text-navy-600 leading-relaxed">
                 Caiden's Courage was created to help kids understand their emotions, celebrate neurodiversity, and discover the superhero that already lives inside them. Through stories, characters, and imaginative learning tools, we empower children to feel seen, confident, and brave in their everyday world.
               </p>
-              <div className="mt-8 flex flex-wrap gap-4">
+              <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
                 <a href="#about" className="btn-primary">
                   Learn About the Mission
                 </a>
