@@ -303,9 +303,9 @@ const Home = () => {
         <div className="absolute inset-0 z-0">
           {/* Yellow circles */}
           <div className="bubble w-20 h-20 top-12 left-[10%]" style={{ animation: 'float-slow 10s ease-in-out infinite', animationDelay: '0s' }} />
-          <div className="bubble w-18 h-18 top-40 left-[25%]" style={{ animation: 'float-slow 12s ease-in-out infinite', animationDelay: '2.5s' }} />
+          <div className="bubble top-40 left-[25%]" style={{ width: '4.5rem', height: '4.5rem', animation: 'float-slow 12s ease-in-out infinite', animationDelay: '2.5s' }} />
           <div className="bubble w-16 h-16 top-68 left-[50%]" style={{ animation: 'float-slow 11s ease-in-out infinite', animationDelay: '1s' }} />
-          <div className="bubble w-22 h-22 top-88 right-[30%]" style={{ animation: 'float-slow 13s ease-in-out infinite', animationDelay: '3.5s' }} />
+          <div className="bubble top-88 right-[30%]" style={{ width: '5.5rem', height: '5.5rem', animation: 'float-slow 13s ease-in-out infinite', animationDelay: '3.5s' }} />
           
           {/* Blue circles */}
           <div className="bubble-navy w-24 h-24 top-24 right-[15%]" style={{ animation: 'float-slow 12s ease-in-out infinite', animationDelay: '2s' }} />
@@ -313,7 +313,7 @@ const Home = () => {
           <div className="bubble-navy w-20 h-20 top-76 right-[45%]" style={{ animation: 'float-slow 10s ease-in-out infinite', animationDelay: '1.5s' }} />
           
           {/* Orange circles */}
-          <div className="bubble-orange w-18 h-18 top-32 left-[60%]" style={{ animation: 'float-slow 11s ease-in-out infinite', animationDelay: '1s' }} />
+          <div className="bubble-orange top-32 left-[60%]" style={{ width: '4.5rem', height: '4.5rem', animation: 'float-slow 11s ease-in-out infinite', animationDelay: '1s' }} />
           <div className="bubble-orange w-20 h-20 top-60 right-[20%]" style={{ animation: 'float-slow 13s ease-in-out infinite', animationDelay: '3s' }} />
           <div className="bubble-orange w-14 h-14 top-84 left-[75%]" style={{ animation: 'float-slow 9s ease-in-out infinite', animationDelay: '2s' }} />
         </div>
