@@ -359,15 +359,13 @@ const Home = () => {
               {/* Hero image - First on mobile, right side on desktop */}
               <div className="flex items-center justify-center lg:justify-end order-1 lg:order-2 w-full">
                 <div className="relative w-full max-w-xs lg:max-w-md xl:max-w-lg">
-                  {/* Geometric shape behind image - hidden on mobile */}
-                  <div className="hidden sm:block geometric-shape shape-blob w-64 h-64 lg:w-80 lg:h-80 -z-10" style={{ top: '10%', right: '5%' }} />
-                  <div className="hidden sm:block geometric-shape shape-star w-32 h-32 lg:w-40 lg:h-40 -z-10" style={{ bottom: '15%', left: '10%' }} />
-                  <div className="hidden sm:block geometric-shape shape-squiggle w-48 h-48 lg:w-56 lg:h-56 -z-10" style={{ top: '50%', right: '15%' }} />
+                  {/* Geometric shape behind image - blue and larger to cover body, visible on all devices */}
+                  <div className="geometric-shape shape-blob-blue w-80 h-80 sm:w-96 sm:h-96 lg:w-[28rem] lg:h-[28rem] xl:w-[32rem] xl:h-[32rem] absolute -z-10" style={{ top: '50%', left: '50%' }} />
                   
                   <img
-                    src="/Courageforeverykid_tipping toe.png"
+                    src="/Courageforeverykid_header_ADHD.png"
                     alt="Caiden - The Boy Who Turned ADHD Into His Superpower"
-                    className="w-full h-auto object-contain drop-shadow-lg relative z-10"
+                    className="w-full h-auto object-contain drop-shadow-lg relative z-10 image-geometric-mask"
                   />
                 </div>
               </div>
