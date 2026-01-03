@@ -1,32 +1,87 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { getStripePreorderUrl, getWaitlistUrl, openExternalUrl, productLinks } from '../config/externalLinks';
 
-// Feature card data - alternating soft cream and muted blue-gray
+// Pop art style icon components
+const SparkleIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="40" fill="#FFD700" stroke="#FFA500" strokeWidth="3"/>
+    <path d="M50 20 L55 45 L80 50 L55 55 L50 80 L45 55 L20 50 L45 45 Z" fill="#FF6B6B" stroke="#FF4757" strokeWidth="2"/>
+    <circle cx="50" cy="50" r="15" fill="#FFD700"/>
+    <circle cx="35" cy="35" r="8" fill="#4ECDC4"/>
+    <circle cx="65" cy="35" r="8" fill="#FF6B6B"/>
+    <circle cx="35" cy="65" r="8" fill="#95E1D3"/>
+    <circle cx="65" cy="65" r="8" fill="#F38181"/>
+  </svg>
+);
+
+const PaletteIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="20" y="30" width="60" height="50" rx="5" fill="#FF6B6B" stroke="#FF4757" strokeWidth="3"/>
+    <circle cx="35" cy="45" r="8" fill="#4ECDC4"/>
+    <circle cx="50" cy="45" r="8" fill="#FFD700"/>
+    <circle cx="65" cy="45" r="8" fill="#95E1D3"/>
+    <circle cx="35" cy="60" r="8" fill="#F38181"/>
+    <circle cx="50" cy="60" r="8" fill="#A8E6CF"/>
+    <circle cx="65" cy="60" r="8" fill="#FFD93D"/>
+    <rect x="25" y="20" width="15" height="15" rx="3" fill="#FF6B6B" transform="rotate(-15 32.5 27.5)"/>
+    <rect x="60" y="20" width="15" height="15" rx="3" fill="#4ECDC4" transform="rotate(15 67.5 27.5)"/>
+  </svg>
+);
+
+const StrengthIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="35" fill="#4ECDC4" stroke="#26A69A" strokeWidth="4"/>
+    <path d="M30 50 L50 30 L70 50 L50 70 Z" fill="#FFD700" stroke="#FFA500" strokeWidth="3"/>
+    <circle cx="50" cy="50" r="12" fill="#FF6B6B"/>
+    <rect x="45" y="25" width="10" height="20" rx="2" fill="#95E1D3"/>
+    <rect x="45" y="55" width="10" height="20" rx="2" fill="#95E1D3"/>
+    <rect x="25" y="45" width="20" height="10" rx="2" fill="#95E1D3"/>
+    <rect x="55" y="45" width="20" height="10" rx="2" fill="#95E1D3"/>
+  </svg>
+);
+
+const StarIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 10 L60 40 L90 40 L68 58 L78 88 L50 70 L22 88 L32 58 L10 40 L40 40 Z" fill="#FFD700" stroke="#FFA500" strokeWidth="3"/>
+    <circle cx="50" cy="50" r="15" fill="#FF6B6B"/>
+    <circle cx="50" cy="50" r="8" fill="#FFD700"/>
+    <circle cx="30" cy="30" r="6" fill="#4ECDC4"/>
+    <circle cx="70" cy="30" r="6" fill="#F38181"/>
+    <circle cx="30" cy="70" r="6" fill="#95E1D3"/>
+    <circle cx="70" cy="70" r="6" fill="#A8E6CF"/>
+  </svg>
+);
+
+// Feature card data - playful and colorful
 const features = [
   {
-    icon: '💡',
+    icon: SparkleIcon,
     title: 'Neurodiversity Positive',
     description: "We celebrate the power of different minds. Caiden's story shows kids that ADHD isn't a flaw — it's a source of creativity, energy, and unique strength.",
-    bgColor: 'bg-[#f7f3eb]', // Soft warm cream
+    bgColor: 'bg-gradient-to-br from-yellow-50 to-orange-50', // Warm playful gradient
+    iconColor: 'text-yellow-500',
   },
   {
-    icon: '🎨',
+    icon: PaletteIcon,
     title: 'Creativity & Imagination',
     description: "Caiden explores the world through art, imagination, and adventure. His story inspires kids to dream boldly and express their ideas freely.",
-    bgColor: 'bg-[#e4e9f0]', // Soft cool blue-gray
+    bgColor: 'bg-gradient-to-br from-pink-50 to-purple-50', // Playful pink-purple gradient
+    iconColor: 'text-pink-500',
   },
   {
-    icon: '💪',
+    icon: StrengthIcon,
     title: 'Emotional Courage',
     description: "Through challenges and big feelings, Caiden learns to understand his emotions, communicate openly, and show up bravely in everyday moments.",
-    bgColor: 'bg-[#f7f3eb]', // Soft warm cream
+    bgColor: 'bg-gradient-to-br from-blue-50 to-cyan-50', // Cool blue gradient
+    iconColor: 'text-blue-500',
   },
   {
-    icon: '🌟',
+    icon: StarIcon,
     title: 'Representation Matters',
     description: "Caiden is a hero who looks, feels, and dreams like the kids who rarely see themselves in stories. His journey helps every child feel seen, valued, and powerful.",
-    bgColor: 'bg-[#e4e9f0]', // Soft cool blue-gray
+    bgColor: 'bg-gradient-to-br from-green-50 to-emerald-50', // Fresh green gradient
+    iconColor: 'text-green-500',
   },
 ];
 
@@ -34,21 +89,25 @@ const features = [
 const characters = [
   {
     name: 'Caiden',
+    microLabel: 'The Dreamer',
     description: "The brave, imaginative 11-year-old at the center of our story — learning how his ADHD is actually his greatest strength.",
     image: '/Caiden@4x-100.jpeg',
   },
   {
     name: 'Genesis',
+    microLabel: 'The Potential',
     description: "Caiden's heroic alter-ego, unlocked when he taps into courage and creativity. Genesis is everything Caiden is becoming.",
     image: '/Genesis@4x-100.jpeg',
   },
   {
     name: 'B-4',
+    microLabel: 'The Mind in Motion',
     description: "A floating robotic companion who represents what's happening inside Caiden's mind. B-4 helps him understand his ADHD.",
     image: '/B-4@4x-100.jpeg',
   },
   {
     name: 'Ollie Buck',
+    microLabel: 'Patience & Grounding',
     description: "Caiden's loyal companion who reminds him that slow and steady wins the race — patience is a superpower too.",
     image: '/Turtle@4x-100.jpeg',
   },
@@ -96,7 +155,10 @@ const products = [
 // ];
 
 const Home = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isPreorderOpen, setIsPreorderOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState(
     typeof window !== 'undefined'
       ? window.innerWidth < 768
@@ -119,6 +181,47 @@ const Home = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    // Check initial scroll position
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px',
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all sections except the hero section
+    const sections = document.querySelectorAll('section:not(#hero)');
+    sections.forEach((section) => {
+      section.classList.add('fade-in-up');
+      observer.observe(section);
+    });
+
+    return () => {
+      sections.forEach((section) => {
+        observer.unobserve(section);
+      });
+    };
+  }, []);
+
   const handlePreorderClick = () => {
     const stripeUrl = getStripePreorderUrl();
     if (stripeUrl) return openExternalUrl(stripeUrl);
@@ -131,18 +234,31 @@ const Home = () => {
     setIsPreorderOpen(true);
   };
 
+  const handleLogoClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate('/');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-cream font-body">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
+      <nav className={`fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md transition-shadow duration-300 ${isScrolled ? 'shadow-md' : 'shadow-sm'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             <div className="flex items-center">
-              <img 
-                src="/logoCaiden.png" 
-                alt="Caiden's Courage" 
-                className="h-10 sm:h-12 w-auto"
-              />
+              <Link 
+                to="/"
+                onClick={handleLogoClick}
+                className="inline-block hover:opacity-80 transition-opacity"
+              >
+                <img 
+                  src="/logoCaiden.png" 
+                  alt="Caiden's Courage" 
+                  className="h-10 sm:h-12 w-auto"
+                />
+              </Link>
             </div>
             <div className="hidden md:flex items-center gap-8">
               <a href="#about" className="text-navy-500 font-semibold hover:text-golden-500 transition-colors">About</a>
@@ -162,6 +278,7 @@ const Home = () => {
 
       {/* Hero Section - Using existing background */}
       <section
+        id="hero"
         className="relative min-h-screen flex items-end sm:items-center caiden-bg pt-20"
         style={{ backgroundImage }}
       >
@@ -175,20 +292,20 @@ const Home = () => {
                 <span className="text-golden-400"> Superpower</span>
               </h1>
               <p className="mt-4 text-lg sm:text-xl text-white/90 drop-shadow-md">
-                Meet Caiden — an illustrated kids' universe about courage, creativity, and emotional growth.
+                Meet Caiden — an illustrated kids' universe about courage, creativity, and emotional growth. <span className="italic">A story for kids who think differently—and the adults who support them.</span>
               </p>
               
               {/* CTAs - right below text */}
-              <div className="flex flex-wrap gap-4 sm:gap-5 mt-8">
+              <div className="flex flex-wrap gap-3 sm:gap-4 mt-8">
                 <button
                   onClick={handlePreorderClick}
-                  className="px-12 py-5 rounded-full bg-golden-500 text-navy-500 font-bold text-lg sm:text-xl shadow-golden hover:bg-golden-600 transition-all duration-300 hover:scale-105"
+                  className="px-9 py-4 rounded-full bg-golden-500 text-navy-500 font-bold text-base sm:text-lg shadow-golden hover:bg-golden-600 transition-all duration-300 hover:scale-105"
                 >
                   Pre-order Now
                 </button>
                 <a
                   href="#about"
-                  className="px-12 py-5 rounded-full bg-white/95 text-navy-500 font-bold text-lg sm:text-xl shadow-lg transition-all duration-300 hover:bg-white hover:scale-105"
+                  className="px-9 py-4 rounded-full bg-white/95 text-navy-500 font-bold text-base sm:text-lg shadow-lg transition-all duration-300 hover:bg-white hover:scale-105"
                 >
                   Learn More
                 </a>
@@ -208,8 +325,8 @@ const Home = () => {
       {/* Who Is Caiden Section */}
       <section id="about" className="py-20 sm:py-28 bg-navy-500 relative overflow-hidden">
         {/* Decorative elements - hidden on mobile */}
-        <div className="hidden sm:block circle-accent circle-coral w-24 h-24 -top-12 left-1/4 opacity-50" />
-        <div className="hidden sm:block circle-accent circle-coral w-16 h-16 bottom-20 left-8 opacity-40" />
+        <div className="hidden sm:block circle-accent circle-coral w-24 h-24 -top-12 left-1/4 opacity-50" style={{ animationDelay: '0s' }} />
+        <div className="hidden sm:block circle-accent circle-coral w-16 h-16 bottom-20 left-8 opacity-40" style={{ animationDelay: '1.5s' }} />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -237,10 +354,12 @@ const Home = () => {
               {features.map((feature, index) => (
                 <div
                   key={feature.title}
-                  className={`feature-card rounded-2xl p-6 ${feature.bgColor} shadow-card`}
+                  className={`feature-card rounded-3xl p-6 ${feature.bgColor} shadow-lg transition-all duration-300 ease-in-out cursor-pointer hover:scale-105 hover:shadow-2xl border-2 border-white/50`}
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <span className="text-3xl">{feature.icon}</span>
+                  <div className={`w-16 h-16 mb-3 transform transition-transform duration-300 ease-in-out hover:scale-110 hover:rotate-6`}>
+                    <feature.icon className="w-full h-full" />
+                  </div>
                   <h3 className="font-display font-bold text-lg mt-3 text-navy-500">
                     {feature.title}
                   </h3>
@@ -256,8 +375,8 @@ const Home = () => {
 
       {/* Mission Section */}
       <section className="py-20 sm:py-28 bg-cream relative overflow-hidden">
-        <div className="hidden sm:block circle-accent circle-navy w-20 h-20 top-20 right-16 opacity-60" />
-        <div className="hidden sm:block circle-accent circle-coral w-12 h-12 bottom-24 left-12 opacity-50" />
+        <div className="hidden sm:block circle-accent circle-navy w-20 h-20 top-20 right-16 opacity-60" style={{ animationDelay: '0.5s' }} />
+        <div className="hidden sm:block circle-accent circle-coral w-12 h-12 bottom-24 left-12 opacity-50" style={{ animationDelay: '3s' }} />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -297,8 +416,8 @@ const Home = () => {
 
       {/* Meet the Characters Section */}
       <section id="characters" className="py-20 sm:py-28 bg-navy-500 relative overflow-hidden">
-        <div className="hidden sm:block circle-accent circle-coral w-28 h-28 top-12 left-8 opacity-40" />
-        <div className="hidden sm:block circle-accent circle-coral w-20 h-20 bottom-16 right-12 opacity-50" />
+        <div className="hidden sm:block circle-accent circle-coral w-28 h-28 top-12 left-8 opacity-40" style={{ animationDelay: '1s' }} />
+        <div className="hidden sm:block circle-accent circle-coral w-20 h-20 bottom-16 right-12 opacity-50" style={{ animationDelay: '2s' }} />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -320,18 +439,23 @@ const Home = () => {
                 className="character-card bg-navy-600/50 rounded-2xl p-6 text-center backdrop-blur-sm border border-white/10"
                 style={{ animationDelay: `${index * 150}ms` }}
               >
-                <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-full bg-gradient-to-br from-golden-400 to-golden-600 p-1 shadow-golden">
-                  <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
-                    <img
-                      src={character.image}
-                      alt={character.name}
-                      className="w-full h-full object-cover"
-                    />
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28 mx-auto">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-golden-400 to-golden-600 p-1 shadow-golden">
+                    <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                      <img
+                        src={character.image}
+                        alt={character.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   </div>
                 </div>
                 <h3 className="font-display text-xl font-bold text-white mt-4">
                   {character.name}
                 </h3>
+                <p className="text-golden-400 text-xs font-semibold mt-1 mb-2 min-h-[1.25rem]">
+                  {character.microLabel}
+                </p>
                 <p className="mt-3 text-sm text-white/70 leading-relaxed">
                   {character.description}
                 </p>
@@ -343,8 +467,8 @@ const Home = () => {
 
       {/* Shop Section */}
       <section id="products" className="py-20 sm:py-28 bg-cream relative overflow-hidden">
-        <div className="hidden sm:block circle-accent circle-coral w-16 h-16 top-16 left-1/3 opacity-40" />
-        <div className="hidden sm:block circle-accent circle-navy w-24 h-24 bottom-12 right-1/4 opacity-30" />
+        <div className="hidden sm:block circle-accent circle-coral w-16 h-16 top-16 left-1/3 opacity-40" style={{ animationDelay: '2.5s' }} />
+        <div className="hidden sm:block circle-accent circle-navy w-12 h-12 bottom-24 right-8 opacity-30" style={{ animationDelay: '4s' }} />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -355,7 +479,7 @@ const Home = () => {
               Caiden's Courage
             </p>
             <p className="mt-4 text-navy-600/80 max-w-2xl mx-auto">
-              Bring the magic of Caiden's journey home with our exclusive products
+              Support courage, creativity, and neurodiverse kids—at home and beyond.
             </p>
           </div>
 
