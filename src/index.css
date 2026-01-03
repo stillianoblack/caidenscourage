@@ -263,6 +263,13 @@ code {
   transform: scale(1.02);
 }
 
+.character-card p {
+  text-align: justify;
+  text-align-last: center;
+  orphans: 2;
+  widows: 2;
+}
+
 /* Button styles - updated to golden yellow with dark text */
 .btn-primary {
   @apply px-8 py-3 rounded-full bg-golden-500 text-navy-500 font-bold 
@@ -314,14 +321,26 @@ code {
 .animate-delay-400 { animation-delay: 400ms; }
 .animate-delay-500 { animation-delay: 500ms; }
 
-/* Scroll-triggered fade-in-up animation */
+/* Scroll-triggered fade-in-up animation - slow fade in */
 .fade-in-up {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition: opacity 1.2s ease-out, transform 1.2s ease-out;
 }
 
 .fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade-in animation for cards on page load */
+.fade-in-card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in-card.visible {
   opacity: 1;
   transform: translateY(0);
 }

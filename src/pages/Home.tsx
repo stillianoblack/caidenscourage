@@ -177,14 +177,16 @@ const Home = () => {
 
   useEffect(() => {
     const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px',
+      threshold: 0.05, // Lower threshold for better mobile detection
+      rootMargin: '0px 0px -20px 0px', // Adjusted for mobile
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
+          // Don't observe again once visible for performance
+          observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
@@ -196,9 +198,38 @@ const Home = () => {
       observer.observe(section);
     });
 
+    // Also observe key content elements within sections for staggered animation
+    const contentElements = document.querySelectorAll('.animate-fade-in, .animate-slide-up');
+    contentElements.forEach((element) => {
+      if (!element.closest('#hero')) {
+        element.classList.add('fade-in-up');
+        observer.observe(element);
+      }
+    });
+
+    // Observe feature cards individually for staggered fade-in
+    const featureCards = document.querySelectorAll('.fade-in-card');
+    featureCards.forEach((card, index) => {
+      const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Add visible class with staggered delay based on card index
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, index * 150);
+            cardObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      cardObserver.observe(card);
+    });
+
     return () => {
       sections.forEach((section) => {
         observer.unobserve(section);
+      });
+      contentElements.forEach((element) => {
+        observer.unobserve(element);
       });
     };
   }, []);
@@ -297,6 +328,30 @@ const Home = () => {
           <div className="bubble-orange w-14 h-14 top-84 left-[75%]" style={{ animation: 'float-slow 9s ease-in-out infinite', animationDelay: '2s' }} />
         </div>
         
+        {/* Small random circles in header - visible on all devices */}
+        <div className="absolute inset-0 z-0">
+          {/* Small yellow circles */}
+          <div className="bubble" style={{ width: '8px', height: '8px', top: '15%', left: '20%', animation: 'float-slow 8s ease-in-out infinite', animationDelay: '0s', opacity: 0.3 }} />
+          <div className="bubble" style={{ width: '10px', height: '10px', top: '45%', left: '75%', animation: 'float-slow 9s ease-in-out infinite', animationDelay: '1s', opacity: 0.25 }} />
+          <div className="bubble" style={{ width: '6px', height: '6px', top: '70%', left: '15%', animation: 'float-slow 7s ease-in-out infinite', animationDelay: '2s', opacity: 0.3 }} />
+          
+          {/* Small blue circles */}
+          <div className="bubble-navy" style={{ width: '9px', height: '9px', top: '30%', left: '60%', animation: 'float-slow 10s ease-in-out infinite', animationDelay: '0.5s', opacity: 0.25 }} />
+          <div className="bubble-navy" style={{ width: '7px', height: '7px', top: '65%', left: '85%', animation: 'float-slow 8s ease-in-out infinite', animationDelay: '1.5s', opacity: 0.3 }} />
+          
+          {/* Small orange circles */}
+          <div className="bubble-orange" style={{ width: '8px', height: '8px', top: '55%', left: '35%', animation: 'float-slow 9s ease-in-out infinite', animationDelay: '2.5s', opacity: 0.25 }} />
+          <div className="bubble-orange" style={{ width: '6px', height: '6px', top: '25%', left: '90%', animation: 'float-slow 7s ease-in-out infinite', animationDelay: '3s', opacity: 0.3 }} />
+        </div>
+        
+        {/* Mid-size circles in header to fill white space at top - visible on all devices */}
+        <div className="absolute inset-0 z-0">
+          {/* Mid-size yellow circle - top left white space */}
+          <div className="bubble" style={{ width: '40px', height: '40px', top: '10%', left: '15%', animation: 'float-slow 12s ease-in-out infinite', animationDelay: '0s', opacity: 0.2 }} />
+          {/* Mid-size blue circle - top right white space */}
+          <div className="bubble-navy" style={{ width: '36px', height: '36px', top: '8%', right: '12%', animation: 'float-slow 11s ease-in-out infinite', animationDelay: '1.5s', opacity: 0.2 }} />
+        </div>
+        
         {/* Hero content + CTAs - bottom on mobile, centered on desktop */}
         <div className="relative z-10 w-full pb-28 sm:pb-0 sm:py-12" style={{ paddingTop: '70px' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -352,8 +407,8 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
+        {/* Scroll indicator - hidden on mobile, visible on desktop */}
+        <div className="hidden md:flex absolute bottom-6 left-0 right-0 justify-center items-center animate-bounce">
           <svg className="w-10 h-10 text-navy-500/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
@@ -394,8 +449,7 @@ const Home = () => {
               {features.map((feature, index) => (
                 <div
                   key={feature.title}
-                  className={`feature-card rounded-3xl p-6 ${feature.bgColor} shadow-lg transition-all duration-300 ease-in-out cursor-pointer hover:scale-105 hover:shadow-2xl border-2 border-white/50`}
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  className={`feature-card fade-in-card rounded-3xl p-6 ${feature.bgColor} shadow-lg transition-all duration-300 ease-in-out cursor-pointer hover:scale-105 hover:shadow-2xl border-2 border-white/50`}
                 >
                   <div className={`w-16 h-16 mb-3 transform transition-transform duration-300 ease-in-out hover:scale-110 hover:rotate-6`}>
                     <feature.icon className="w-full h-full" />
@@ -441,11 +495,11 @@ const Home = () => {
               <p className="mt-4 text-navy-600 leading-relaxed">
                 Caiden's Courage was created to help kids understand their emotions, celebrate neurodiversity, and discover the superhero that already lives inside them. Through stories, characters, and imaginative learning tools, we empower children to feel seen, confident, and brave in their everyday world.
               </p>
-              <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
-                <a href="#about" className="btn-primary">
+              <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <a href="#about" className="btn-primary text-center inline-block min-w-[220px]">
                   Learn About the Mission
                 </a>
-                <a href="#characters" className="btn-secondary">
+                <a href="#characters" className="btn-secondary text-center inline-block min-w-[220px]">
                   Meet the Characters
                 </a>
               </div>
@@ -476,8 +530,7 @@ const Home = () => {
             {characters.map((character, index) => (
               <div
                 key={character.name}
-                className="character-card bg-navy-600/50 rounded-2xl p-6 text-center backdrop-blur-sm border border-white/10"
-                style={{ animationDelay: `${index * 150}ms` }}
+                className="character-card fade-in-card bg-navy-600/50 rounded-2xl p-5 text-center backdrop-blur-sm border border-white/10"
               >
                 <div className="relative w-24 h-24 sm:w-28 sm:h-28 mx-auto">
                   <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-golden-400 to-golden-600 p-1 shadow-golden">
@@ -496,7 +549,7 @@ const Home = () => {
                 <p className="text-golden-400 text-xs font-semibold mt-1 mb-2 min-h-[1.25rem]">
                   {character.microLabel}
                 </p>
-                <p className="mt-3 text-sm text-white/70 leading-relaxed">
+                <p className="mt-3 text-sm text-white/70 leading-snug px-2" style={{ wordBreak: 'break-word', hyphens: 'auto' }}>
                   {character.description}
                 </p>
               </div>
@@ -524,10 +577,10 @@ const Home = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {products.map((product) => (
+            {products.map((product, index) => (
               <div
                 key={product.title}
-                className={`feature-card bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover ${
+                className={`feature-card fade-in-card bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover ${
                   product.available ? 'ring-2 ring-golden-500/50' : ''
                 }`}
               >
