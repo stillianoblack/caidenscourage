@@ -5,6 +5,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
 import ThankYou from './pages/ThankYou';
 import Cancelled from './pages/Cancelled';
+import Resources from './pages/Resources';
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
         <Route path="/terms" element={<Terms />} />
         <Route path="/thank-you" element={<ThankYou />} />
         <Route path="/cancelled" element={<Cancelled />} />
+        <Route path="/resources" element={<Resources />} />
       </Routes>
     </Router>
   );

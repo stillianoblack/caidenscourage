@@ -4,6 +4,24 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* Performance optimization: Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .feature-card,
+  .fade-in-card {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 :root {
   --navy-500: #243E70;
   --golden-500: #F0CE6E;
@@ -295,13 +313,13 @@ code {
 .btn-primary {
   @apply px-8 py-3 rounded-full bg-golden-500 text-navy-500 font-bold 
          shadow-golden transition-all duration-300 hover:bg-golden-600 
-         hover:shadow-lg active:scale-95;
+         hover:shadow-xl hover:scale-105 active:scale-95;
 }
 
 .btn-secondary {
   @apply px-8 py-3 rounded-full bg-white text-navy-500 font-semibold 
          border-2 border-navy-500 transition-all duration-300 
-         hover:bg-navy-500 hover:text-white active:scale-95;
+         hover:bg-navy-500 hover:text-white hover:shadow-xl hover:scale-105 active:scale-95;
 }
 
 .btn-nav {
@@ -342,11 +360,11 @@ code {
 .animate-delay-400 { animation-delay: 400ms; }
 .animate-delay-500 { animation-delay: 500ms; }
 
-/* Scroll-triggered fade-in-up animation - slow fade in */
+/* Scroll-triggered fade-in-up animation - medium speed */
 .fade-in-up {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+  transform: translateY(40px);
+  transition: opacity 0.9s ease-out, transform 0.9s ease-out;
 }
 
 .fade-in-up.visible {
@@ -413,5 +431,29 @@ code {
   }
   100% {
     width: 100%;
+  }
+}
+
+/* Resources Dropdown Styles */
+.has-dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Ensure dropdown stays open when hovering over bridge or menu */
+.has-dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Mobile: Click to toggle */
+@media (max-width: 768px) {
+  .has-dropdown .dropdown-menu {
+    position: absolute;
   }
 }

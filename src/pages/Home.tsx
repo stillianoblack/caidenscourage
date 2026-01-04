@@ -53,34 +53,42 @@ const StarIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// Feature card data - playful and colorful
+// Feature card data - 2026 design trends with glassmorphism and bold gradients
 const features = [
   {
     icon: SparkleIcon,
     title: 'Neurodiversity Positive',
     description: "We celebrate the power of different minds. Caiden's story shows kids that ADHD isn't a flaw — it's a source of creativity, energy, and unique strength.",
-    bgColor: 'bg-gradient-to-br from-yellow-50 to-orange-50', // Warm playful gradient
+    bgGradient: 'from-yellow-400/20 via-orange-400/15 to-amber-400/20',
+    glowColor: 'rgba(251, 191, 36, 0.4)',
+    borderColor: 'border-yellow-300/30',
     iconColor: 'text-yellow-500',
   },
   {
     icon: PaletteIcon,
     title: 'Creativity & Imagination',
     description: "Caiden explores the world through art, imagination, and adventure. His story inspires kids to dream boldly and express their ideas freely.",
-    bgColor: 'bg-gradient-to-br from-pink-50 to-purple-50', // Playful pink-purple gradient
+    bgGradient: 'from-pink-400/20 via-purple-400/15 to-fuchsia-400/20',
+    glowColor: 'rgba(236, 72, 153, 0.4)',
+    borderColor: 'border-pink-300/30',
     iconColor: 'text-pink-500',
   },
   {
     icon: StrengthIcon,
     title: 'Emotional Courage',
     description: "Through challenges and big feelings, Caiden learns to understand his emotions, communicate openly, and show up bravely in everyday moments.",
-    bgColor: 'bg-gradient-to-br from-blue-50 to-cyan-50', // Cool blue gradient
+    bgGradient: 'from-blue-400/20 via-cyan-400/15 to-sky-400/20',
+    glowColor: 'rgba(59, 130, 246, 0.4)',
+    borderColor: 'border-blue-300/30',
     iconColor: 'text-blue-500',
   },
   {
     icon: StarIcon,
     title: 'Representation Matters',
     description: "Caiden is a hero who looks, feels, and dreams like the kids who rarely see themselves in stories. His journey helps every child feel seen, valued, and powerful.",
-    bgColor: 'bg-gradient-to-br from-green-50 to-emerald-50', // Fresh green gradient
+    bgGradient: 'from-green-400/20 via-emerald-400/15 to-teal-400/20',
+    glowColor: 'rgba(34, 197, 94, 0.4)',
+    borderColor: 'border-green-300/30',
     iconColor: 'text-green-500',
   },
 ];
@@ -160,7 +168,45 @@ const Home = () => {
   const [isPreorderOpen, setIsPreorderOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [rotatingWord, setRotatingWord] = useState(0);
+  const [showResourcesDropdown, setShowResourcesDropdown] = useState(false);
+  const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showMobileResourcesDropdown, setShowMobileResourcesDropdown] = useState(false);
   const words = ['Superpower', 'Strength', 'Courage', 'Power'];
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimeout) {
+        clearTimeout(closeTimeout);
+      }
+    };
+  }, [closeTimeout]);
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showResourcesDropdown) {
+        setShowResourcesDropdown(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showResourcesDropdown]);
+
+  // Handle click outside to close dropdown (mobile)
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (showResourcesDropdown && !target.closest('.has-dropdown')) {
+        setShowResourcesDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showResourcesDropdown]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -268,7 +314,32 @@ const Home = () => {
       <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md transition-all duration-300 ${isScrolled ? 'bg-navy-500 shadow-xl' : 'bg-white/90 shadow-md'}`} style={isScrolled ? { boxShadow: '0 10px 25px -5px rgba(36, 62, 112, 0.4), 0 8px 10px -6px rgba(36, 62, 112, 0.3)' } : { boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
-            <div className="flex items-center">
+            <div className="flex items-center gap-3">
+              {/* Mobile Menu Button - Left of Logo, Centered */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className={`md:hidden p-2 rounded-lg transition-all duration-300 ${isScrolled ? 'text-white' : 'text-navy-500'} hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 ${isScrolled ? 'focus:ring-white' : 'focus:ring-navy-500'} relative flex items-center justify-center`}
+                aria-label="Toggle menu"
+                aria-expanded={isMobileMenuOpen}
+              >
+                <svg 
+                  className={`w-7 h-7 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0 rotate-90' : 'opacity-100 rotate-0'}`}
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+                <svg 
+                  className={`w-7 h-7 absolute transition-all duration-300 ${isMobileMenuOpen ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90'}`}
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              
               <Link 
                 to="/"
                 onClick={handleLogoClick}
@@ -285,24 +356,285 @@ const Home = () => {
               <a href="#about" className={`nav-link-underline font-semibold transition-all duration-300 hover:font-bold ${isScrolled ? 'text-white' : 'text-navy-500'}`}>About</a>
               <a href="#characters" className={`nav-link-underline font-semibold transition-all duration-300 hover:font-bold ${isScrolled ? 'text-white' : 'text-navy-500'}`}>Characters</a>
               <a href="#products" className={`nav-link-underline font-semibold transition-all duration-300 hover:font-bold ${isScrolled ? 'text-white' : 'text-navy-500'}`}>Shop</a>
+              
+              {/* Resources Dropdown */}
+              <div 
+                className="relative has-dropdown"
+                onMouseEnter={() => {
+                  if (closeTimeout) {
+                    clearTimeout(closeTimeout);
+                    setCloseTimeout(null);
+                  }
+                  setShowResourcesDropdown(true);
+                }}
+                onMouseLeave={() => {
+                  const timeout = setTimeout(() => {
+                    setShowResourcesDropdown(false);
+                  }, 200);
+                  setCloseTimeout(timeout);
+                }}
+              >
+                <div
+                  className={`nav-link-underline font-semibold transition-all duration-300 hover:font-bold flex items-center gap-1.5 cursor-pointer ${isScrolled ? 'text-white' : 'text-navy-500'}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowResourcesDropdown(!showResourcesDropdown);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setShowResourcesDropdown(!showResourcesDropdown);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-haspopup="true"
+                  aria-expanded={showResourcesDropdown}
+                >
+                  Resources
+                  <svg 
+                    className={`w-4 h-4 transition-transform duration-300 ${showResourcesDropdown ? 'rotate-180' : ''}`}
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+                
+                {/* Invisible hover bridge */}
+                <div className="absolute top-full left-0 w-full h-3" />
+                
+                <div 
+                  className={`dropdown-menu absolute top-full left-0 mt-2 bg-white rounded-lg shadow-xl py-2 min-w-[200px] z-50 transition-all duration-200 ${
+                    showResourcesDropdown 
+                      ? 'opacity-100 visible pointer-events-auto translate-y-0' 
+                      : 'opacity-0 invisible pointer-events-none -translate-y-2'
+                  }`}
+                  style={{ boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' }}
+                  onMouseEnter={() => {
+                    if (closeTimeout) {
+                      clearTimeout(closeTimeout);
+                      setCloseTimeout(null);
+                    }
+                    setShowResourcesDropdown(true);
+                  }}
+                  onMouseLeave={() => {
+                    const timeout = setTimeout(() => {
+                      setShowResourcesDropdown(false);
+                    }, 200);
+                    setCloseTimeout(timeout);
+                  }}
+                >
+                  <Link
+                    to="/resources?type=all"
+                    className="block w-full text-left px-4 py-2 text-navy-500 hover:bg-navy-50 transition-colors text-sm font-medium font-semibold border-b border-navy-100"
+                    onClick={() => setShowResourcesDropdown(false)}
+                  >
+                    Start Here
+                  </Link>
+                  <Link
+                    to="/resources?type=wallpaper"
+                    className="block w-full text-left px-4 py-2 text-navy-500 hover:bg-navy-50 transition-colors text-sm font-medium"
+                    onClick={() => setShowResourcesDropdown(false)}
+                  >
+                    Wallpapers
+                  </Link>
+                  <Link
+                    to="/resources?type=coloring"
+                    className="block w-full text-left px-4 py-2 text-navy-500 hover:bg-navy-50 transition-colors text-sm font-medium"
+                    onClick={() => setShowResourcesDropdown(false)}
+                  >
+                    Coloring Pages
+                  </Link>
+                  <Link
+                    to="/resources?type=worksheet"
+                    className="block w-full text-left px-4 py-2 text-navy-500 hover:bg-navy-50 transition-colors text-sm font-medium"
+                    onClick={() => setShowResourcesDropdown(false)}
+                  >
+                    SEL Worksheets
+                  </Link>
+                  <Link
+                    to="/resources?type=teacher-pack"
+                    className="block w-full text-left px-4 py-2 text-navy-500 hover:bg-navy-50 transition-colors text-sm font-medium"
+                    onClick={() => setShowResourcesDropdown(false)}
+                  >
+                    Teacher Packs
+                  </Link>
+                </div>
+              </div>
+              
               <a href="mailto:stills@caidenscourage.com" className={`nav-link-underline font-semibold transition-all duration-300 hover:font-bold ${isScrolled ? 'text-white' : 'text-navy-500'}`}>Contact</a>
             </div>
-            <button
-              onClick={handleWaitlistClick}
-              className={`text-sm sm:text-base px-6 py-2.5 rounded-full font-bold transition-all duration-300 hover:scale-110 active:scale-95 ${isScrolled ? 'bg-navy-500 text-white hover:bg-golden-500 hover:text-navy-500' : 'bg-navy-500 text-white hover:bg-golden-500 hover:text-navy-500'}`}
-              style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08)' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08)';
-              }}
-            >
-              Join Waitlist
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleWaitlistClick}
+                className={`text-sm sm:text-base px-6 py-2.5 rounded-full font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95 ${isScrolled ? 'bg-orange-500 text-white border-2 border-white hover:bg-orange-600 hover:border-orange-600' : 'bg-orange-500 text-white hover:bg-orange-600'}`}
+                style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08)' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08)';
+                }}
+              >
+                Join Waitlist
+              </button>
+            </div>
           </div>
         </div>
       </nav>
+
+      {/* Mobile Menu - Full Screen, Slides from Left, Under Navigation */}
+      <div 
+        className={`fixed top-16 sm:top-20 left-0 right-0 bottom-0 z-40 md:hidden transition-opacity duration-300 ${
+          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+        }`}
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        {/* Full Screen Menu Panel - Slides from Left */}
+        <div 
+          className={`absolute inset-0 bg-white transform transition-transform duration-300 ease-out ${
+            isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Menu Items - Centered */}
+          <nav className="px-6 pt-8 pb-8 overflow-y-auto h-[calc(100vh-96px)]">
+            <div className="flex flex-col space-y-2 max-w-7xl mx-auto" style={{ paddingTop: '100px' }}>
+              <a
+                href="#about"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="px-6 py-6 text-navy-600 text-2xl font-semibold hover:bg-navy-50 transition-colors border-b border-navy-100 flex items-center justify-between rounded-lg"
+              >
+                <span>About</span>
+                <svg className="w-7 h-7 text-navy-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+              
+              <a
+                href="#characters"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="px-6 py-6 text-navy-600 text-2xl font-semibold hover:bg-navy-50 transition-colors border-b border-navy-100 flex items-center justify-between rounded-lg"
+              >
+                <span>Characters</span>
+                <svg className="w-7 h-7 text-navy-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+              
+              <a
+                href="#products"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="px-6 py-6 text-navy-600 text-2xl font-semibold hover:bg-navy-50 transition-colors border-b border-navy-100 flex items-center justify-between rounded-lg"
+              >
+                <span>Shop</span>
+                <svg className="w-7 h-7 text-navy-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+              
+              {/* Resources Dropdown in Mobile Menu */}
+              <div className="border-b border-navy-100">
+                <button
+                  onClick={() => setShowMobileResourcesDropdown(!showMobileResourcesDropdown)}
+                  className="w-full px-6 py-6 text-navy-600 text-2xl font-semibold hover:bg-navy-50 transition-colors flex items-center justify-between rounded-lg"
+                >
+                  <span>Resources</span>
+                  <svg 
+                    className={`w-7 h-7 text-navy-400 transition-transform duration-300 ${showMobileResourcesDropdown ? 'rotate-180' : ''}`}
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                <div className={`overflow-hidden transition-all duration-300 ${
+                  showMobileResourcesDropdown ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                }`}>
+                  <Link
+                    to="/resources?type=all"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setShowMobileResourcesDropdown(false);
+                    }}
+                    className="block px-12 py-4 text-navy-500 hover:bg-navy-50 transition-colors text-lg font-medium"
+                  >
+                    Start Here
+                  </Link>
+                  <Link
+                    to="/resources?type=wallpaper"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setShowMobileResourcesDropdown(false);
+                    }}
+                    className="block px-12 py-4 text-navy-500 hover:bg-navy-50 transition-colors text-lg font-medium"
+                  >
+                    Wallpapers
+                  </Link>
+                  <Link
+                    to="/resources?type=coloring"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setShowMobileResourcesDropdown(false);
+                    }}
+                    className="block px-12 py-4 text-navy-500 hover:bg-navy-50 transition-colors text-lg font-medium"
+                  >
+                    Coloring Pages
+                  </Link>
+                  <Link
+                    to="/resources?type=worksheet"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setShowMobileResourcesDropdown(false);
+                    }}
+                    className="block px-12 py-4 text-navy-500 hover:bg-navy-50 transition-colors text-lg font-medium"
+                  >
+                    SEL Worksheets
+                  </Link>
+                  <Link
+                    to="/resources?type=teacher-pack"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setShowMobileResourcesDropdown(false);
+                    }}
+                    className="block px-12 py-4 text-navy-500 hover:bg-navy-50 transition-colors text-lg font-medium"
+                  >
+                    Teacher Packs
+                  </Link>
+                </div>
+              </div>
+              
+              <a
+                href="mailto:stills@caidenscourage.com"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="px-6 py-6 text-navy-600 text-2xl font-semibold hover:bg-navy-50 transition-colors border-b border-navy-100 flex items-center justify-between rounded-lg"
+              >
+                <span>Contact</span>
+                <svg className="w-7 h-7 text-navy-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+              
+              {/* CTA Button in Mobile Menu */}
+              <div className="px-6 py-6 mt-4">
+                <button
+                  onClick={() => {
+                    handleWaitlistClick();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full px-8 py-5 bg-orange-500 text-white text-xl rounded-full font-bold transition-all duration-300 hover:bg-orange-600 hover:shadow-lg active:scale-95"
+                >
+                  Join Waitlist
+                </button>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
 
       {/* Hero Section - White background */}
       <section
@@ -435,29 +767,58 @@ const Home = () => {
               <div className="flex justify-center lg:justify-start">
                 <button
                   onClick={handlePreorderClick}
-                  className="mt-8 btn-primary"
+                  className="mt-8 btn-primary min-w-[220px] text-center"
                 >
                   Explore the Story
                 </button>
               </div>
             </div>
 
-            {/* Right - Feature cards */}
-            <div className="grid sm:grid-cols-2 gap-4">
+            {/* Right - Feature cards optimized for performance */}
+            <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
               {features.map((feature, index) => (
                 <div
                   key={feature.title}
-                  className={`feature-card fade-in-card rounded-3xl p-6 ${feature.bgColor} shadow-lg transition-all duration-300 ease-in-out cursor-pointer hover:scale-105 hover:shadow-2xl border-2 border-white/50`}
+                  className="relative group h-full"
                 >
-                  <div className={`w-16 h-16 mb-3 transform transition-transform duration-300 ease-in-out hover:scale-110 hover:rotate-6`}>
-                    <feature.icon className="w-full h-full" />
+                  {/* Card container - solid base */}
+                  <div
+                    className={`relative feature-card fade-in-card rounded-3xl p-6 sm:p-7 bg-white/85 border-2 ${feature.borderColor} shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-pointer h-full flex flex-col`}
+                  >
+                    {/* Gradient background layer */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgGradient} rounded-3xl opacity-40`}></div>
+                    
+                    {/* Small glass overlay only on top section */}
+                    <div 
+                      className="absolute top-0 left-0 right-0 h-24 bg-white/20 backdrop-blur-[10px] rounded-t-3xl pointer-events-none"
+                      style={{ 
+                        backdropFilter: 'blur(10px)',
+                        WebkitBackdropFilter: 'blur(10px)'
+                      }}
+                    ></div>
+                    <div className="absolute top-0 left-0 right-0 h-24 bg-white/20 rounded-t-3xl pointer-events-none supports-[backdrop-filter]:hidden"></div>
+                    
+                    {/* Content layer */}
+                    <div className="relative z-10 flex flex-col flex-grow">
+                      {/* Icon - simplified */}
+                      <div className={`w-16 h-16 sm:w-20 sm:h-20 mb-4 transition-transform duration-300 group-hover:scale-105`}>
+                        <feature.icon className={`w-full h-full ${feature.iconColor}`} />
+                      </div>
+                      
+                      {/* Title */}
+                      <h3 className="font-display font-bold text-sm sm:text-base mt-3 text-navy-600 leading-tight">
+                        {feature.title}
+                      </h3>
+                      
+                      {/* Description */}
+                      <p className="mt-3 text-sm sm:text-base leading-relaxed text-navy-600/90 flex-grow">
+                        {feature.description}
+                      </p>
+                    </div>
+                    
+                    {/* Decorative corner accent - static */}
+                    <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${feature.bgGradient} rounded-bl-3xl opacity-15`}></div>
                   </div>
-                  <h3 className="font-display font-bold text-lg mt-3 text-navy-500">
-                    {feature.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-navy-600">
-                    {feature.description}
-                  </p>
                 </div>
               ))}
             </div>
@@ -528,7 +889,7 @@ const Home = () => {
             {characters.map((character, index) => (
               <div
                 key={character.name}
-                className="character-card fade-in-card bg-navy-600/50 rounded-2xl p-5 text-center backdrop-blur-sm border border-white/10"
+                className="character-card fade-in-card bg-navy-600/50 rounded-2xl p-5 text-center backdrop-blur-sm border border-white/10 hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
               >
                 <div className="relative w-24 h-24 sm:w-28 sm:h-28 mx-auto">
                   <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-golden-400 to-golden-600 p-1 shadow-golden">
@@ -578,7 +939,7 @@ const Home = () => {
             {products.map((product, index) => (
               <div
                 key={product.title}
-                className={`feature-card fade-in-card bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover ${
+                className={`feature-card fade-in-card bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-xl hover:scale-[1.02] transition-all duration-300 ${
                   product.available ? 'ring-2 ring-golden-500/50' : ''
                 }`}
               >
@@ -604,7 +965,7 @@ const Home = () => {
                   {product.available && product.purchaseUrl ? (
                     <button
                       onClick={() => openExternalUrl(product.purchaseUrl!)}
-                      className="mt-5 w-full py-3 px-6 bg-golden-500 text-navy-500 font-bold rounded-full shadow-golden hover:bg-golden-600 transition-all duration-300 flex items-center justify-center gap-2"
+                      className="mt-5 w-full py-3 px-6 bg-golden-500 text-navy-500 font-bold rounded-full shadow-golden hover:bg-golden-600 hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -614,7 +975,7 @@ const Home = () => {
                   ) : (
                     <button
                       onClick={handleWaitlistClick}
-                      className="mt-5 w-full py-3 px-6 bg-navy-200 text-navy-500 font-semibold rounded-full hover:bg-navy-300 transition-all duration-300 flex items-center justify-center gap-2"
+                      className="mt-5 w-full py-3 px-6 bg-navy-200 text-navy-500 font-semibold rounded-full hover:bg-navy-300 hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
@@ -646,7 +1007,7 @@ const Home = () => {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <button
               onClick={handleWaitlistClick}
-              className="btn-primary"
+              className="btn-primary min-w-[220px] text-center"
             >
               Join the Waitlist
             </button>
@@ -695,7 +1056,7 @@ const Home = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
           <div className="relative w-full max-w-2xl animate-slide-up">
             <button
-              className="absolute -top-3 -right-3 h-10 w-10 rounded-full bg-white text-navy-500 font-bold shadow-lg flex items-center justify-center hover:bg-gray-100 transition-colors z-10"
+              className="absolute -top-3 -right-3 h-10 w-10 rounded-full bg-white text-navy-500 font-bold shadow-lg flex items-center justify-center hover:bg-gray-100 hover:shadow-xl hover:scale-105 transition-all duration-300 z-10"
               onClick={() => setIsPreorderOpen(false)}
               aria-label="Close pre-order"
             >

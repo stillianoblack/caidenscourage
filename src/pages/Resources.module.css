@@ -1,0 +1,6 @@
+/* Simple, clean styles for Resources page - matches site design */
+
+.resourcesPage {
+  min-height: 100vh;
+  background-color: #faf9f7;
+}
