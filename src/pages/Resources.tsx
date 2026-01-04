@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { RESOURCES, Resource, ResourceType, Audience } from '../data/resources';
+import { RESOURCES, ResourceType, Audience } from '../data/resources';
 import { getWaitlistUrl, openExternalUrl } from '../config/externalLinks';
 
 const Resources: React.FC = () => {
@@ -187,12 +187,6 @@ const Resources: React.FC = () => {
     window.open(fileUrl, '_blank');
   };
 
-  const handleResourceTypeClick = (type: ResourceType | 'all') => {
-    navigate(`/resources?type=${type}`);
-    setSelectedType(type);
-    setShowResourcesDropdown(false);
-  };
-
   const handleMouseEnter = () => {
     if (closeTimeout) {
       clearTimeout(closeTimeout);
@@ -217,17 +211,6 @@ const Resources: React.FC = () => {
       e.preventDefault();
       handleToggleDropdown();
     }
-  };
-
-  // Helper function to format resource type for badge
-  const formatTypeBadge = (type: ResourceType): string => {
-    const typeMap: Record<ResourceType, string> = {
-      'wallpaper': 'WALLPAPER',
-      'coloring': 'COLORING',
-      'worksheet': 'WORKSHEET',
-      'teacher-pack': 'TEACHER PACK'
-    };
-    return typeMap[type] || type.toUpperCase();
   };
 
   return (
